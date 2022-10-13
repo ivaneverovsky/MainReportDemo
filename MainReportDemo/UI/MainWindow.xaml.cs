@@ -2,6 +2,7 @@
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MainReportDemo
@@ -11,6 +12,7 @@ namespace MainReportDemo
         OutputDataModel _odm = new OutputDataModel();
         DBConnection _db = new DBConnection();
         Calculations _calc = new Calculations();
+        Graph _graph = new Graph();
 
         //store contracts from db 
         private List<object> dbData = new List<object>();
@@ -77,6 +79,7 @@ namespace MainReportDemo
             Cleaning();
             GetData(monthRequest, quarterRequest, yearRequest);
             CountReports();
+            BuildGraph();
         }
 
         //count reports
@@ -92,6 +95,13 @@ namespace MainReportDemo
                 reportListView.Items.Add(reportList[i]);
                 slaListView.Items.Add(reportList[i]);
             }
+        }
+
+        //build graph
+        private void BuildGraph()
+        {
+            _graph.BuildGraph();
+            graphSLA.Series = _graph.SeriesCollection;
         }
 
         //parse db data to contracts list
@@ -188,7 +198,7 @@ namespace MainReportDemo
             slaListView.Items.Clear();
 
             //clear graph
-
+            graphSLA.Update();
 
             //clear storage
             _calc.ClearData();

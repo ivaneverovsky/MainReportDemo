@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MainReportDemo.UIModels
 {
@@ -10,8 +7,8 @@ namespace MainReportDemo.UIModels
     {
         public string ReportDateMonth { get { return ReturnMonth(); } }
         public string ReportDateYear { get { return DateTime.Now.Year.ToString() + " года"; } }
-        public DateTime StartReportDate { get { return ReportDateTimeStart(); } }
-        public DateTime FinalReportDate { get { return ReportDateTimeFinal(); } }
+        //public DateTime StartReportDate { get { return ReportDateTimeStart(); } }
+        //public DateTime FinalReportDate { get { return ReportDateTimeFinal(); } }
 
 
         private static List<string> MonthList = new List<string>() {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь"
@@ -24,18 +21,18 @@ namespace MainReportDemo.UIModels
             return month;
         }
 
-        //count start date for program
-        static DateTime ReportDateTimeStart()
-        {
-            DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            return dateTime;
-        }
+        ////count start date for program
+        //static DateTime ReportDateTimeStart()
+        //{
+        //    DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        //    return dateTime;
+        //}
         
-        //count final date for program
-        static DateTime ReportDateTimeFinal()
-        {
-            DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1);
-            return dateTime.AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
-        }
+        ////count final date for program
+        //static DateTime ReportDateTimeFinal()
+        //{
+        //    DateTime dateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month + 1, 1);
+        //    return dateTime.AddDays(-1).AddHours(23).AddMinutes(59).AddSeconds(59);
+        //}
     }
 }

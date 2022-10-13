@@ -1,23 +1,14 @@
-﻿using MainReportDemo.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Media;
-
-namespace MainReportDemo.UIModels
+﻿namespace MainReportDemo.UIModels
 {
     internal class Report
     {
-        public bool Status { get; set; }
         public string Color { get; set; }
+        public string ColorYear { get; set; }
         public string ContractName { get; set; }
         public int ReportAmount { get; set; }
         public int ReportAmountYear { get; set; }
         public int Critical { get; set; }
+        public int CriticalYear { get; set; }
         public double SLAMonth { get; set; }
         public double SLAQuarter { get; set; }
         public double SLAYear { get; set; }
@@ -35,14 +26,15 @@ namespace MainReportDemo.UIModels
         public double NoMark { get; set; }
         public double Restart { get; set; }
 
-        public Report(bool status, string color, string contractName, int reportAmount, int reportAmountYear, int critical, double sLAMonth, double sLAQuarter, double sLAYear, int requestsAccess, int requestsChange, int requestsUsage, int incidents, int incidentsIS, int requestsAdvice, int planedWork, double five, double four, double three, double two, double noMark, double restart)
+        public Report(string color, string colorYear, string contractName, int reportAmount, int reportAmountYear, int critical, int criticalYear, double sLAMonth, double sLAQuarter, double sLAYear, int requestsAccess, int requestsChange, int requestsUsage, int incidents, int incidentsIS, int requestsAdvice, int planedWork, double five, double four, double three, double two, double noMark, double restart)
         {
-            Status = status;
             Color = color;
+            ColorYear = colorYear;
             ContractName = contractName;
             ReportAmount = reportAmount;
             ReportAmountYear = reportAmountYear;
             Critical = critical;
+            CriticalYear = criticalYear;
             SLAMonth = sLAMonth;
             SLAQuarter = sLAQuarter;
             SLAYear = sLAYear;

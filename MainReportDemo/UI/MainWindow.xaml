@@ -165,7 +165,7 @@
                                     <GridViewColumn Header="Статус" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <RadioButton IsHitTestVisible="False" Background="{Binding Color}"/>
+                                                <RadioButton IsHitTestVisible="False" Background="{Binding ColorYear}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -189,7 +189,7 @@
                                     <GridViewColumn Header="КИ" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Critical}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                                <TextBlock Text="{Binding CriticalYear}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

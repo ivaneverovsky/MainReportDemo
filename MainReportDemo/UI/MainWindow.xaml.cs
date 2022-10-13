@@ -2,7 +2,6 @@
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace MainReportDemo
@@ -22,8 +21,8 @@ namespace MainReportDemo
         private List<object> dbDataYear = new List<object>();
 
         //store contracts
-        public List<object> contractsList = new List<object>();
-        public List<object> deletedContracts = new List<object>();
+        private List<object> contractsList = new List<object>();
+        private List<object> deletedContracts = new List<object>();
 
         //datetime for program
         private DateTime yearDate;
@@ -72,7 +71,7 @@ namespace MainReportDemo
             _db.CloseConnection();
         }
 
-        //button "Вычислить" count everything
+        //button "Вычислить", count everything
         private void Count(object sender, RoutedEventArgs e) 
         {
             Cleaning();
@@ -108,6 +107,8 @@ namespace MainReportDemo
 
             for (int i = 0; i < contractsList.Count; i++)
                 contractsListView.Items.Add(contractsList[i]);
+
+            dbData.Clear();
         }
 
         //add selected contracts to contract list and contractsListView
@@ -182,11 +183,20 @@ namespace MainReportDemo
         //erase data
         private void Cleaning()
         {
+            //clear list views
             reportListView.Items.Clear();
             slaListView.Items.Clear();
-            //clear graph here pls
+
+            //clear graph
+
+
+            //clear storage
             _calc.ClearData();
-            dbData.Clear();
+
+            //clear lists
+            dbDataMonth.Clear();
+            dbDataQuarter.Clear();
+            dbDataYear.Clear();
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using MainReportDemo.UIModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MainReportDemo.Data
 {
@@ -18,7 +14,7 @@ namespace MainReportDemo.Data
 
 
 
-        public List<object> _dbData = new List<object>();
+        private List<object> _dbData = new List<object>();
         public List<object> dbData { get { return _dbData; } }
         public void AddData(object row)
         {

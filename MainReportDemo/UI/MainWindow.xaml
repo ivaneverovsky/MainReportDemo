@@ -77,10 +77,10 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="SLA (%)" Width="Auto">
+                                    <GridViewColumn Header="SLA" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ActualSLA}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                                <TextBlock Text="{Binding SLAMonth}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -129,6 +129,91 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RequestsAdvice}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="ППР" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding PlanedWork}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem x:Name="slaTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">SLA</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <ListView x:Name="slaListView" BorderBrush="CornflowerBlue" HorizontalContentAlignment="Stretch" 
+                  VerticalContentAlignment="Stretch" FontSize="12" FontFamily="Calibri" BorderThickness="2,2,2,2" 
+                  IsTextSearchEnabled="False" Margin="10,10,10,10" Focusable="False" Height="260">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="Статус" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <RadioButton IsHitTestVisible="False" Background="{Binding Color}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Сервисный контракт" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ContractName}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Кол-во обращений" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ReportAmountYear}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="КИ" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Critical}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="SLA месяц" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SLAMonth}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="SLA квартал" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SLAQuarter}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="SLA год" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding SLAYear}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -192,20 +277,6 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                    </StackPanel>
-                </TabItem.Content>
-            </TabItem>
-
-            <TabItem x:Name="slaTab">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="3">SLA</TextBlock>
-                    </StackPanel>
-                </TabItem.Header>
-                <TabItem.Content>
-                    <StackPanel>
-                        <RadioButton IsChecked="True">iPhone S6</RadioButton>
-                        <RadioButton>LG G 4</RadioButton>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>

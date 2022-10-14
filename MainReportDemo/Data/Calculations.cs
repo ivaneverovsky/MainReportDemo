@@ -497,16 +497,17 @@ namespace MainReportDemo.Data
                 new LineSeries
                 {
                     Title = "% обращений с нарушенным SLA",
-                    Values = new ChartValues<double> { Math.Round((sla1 / (double)report1) * 100, 2), Math.Round((sla2 / (double)report2) * 100, 2),
-                        Math.Round((sla3 / (double)report3) * 100, 2), Math.Round((sla4 / (double)report4) * 100, 2), Math.Round((sla5 / (double)report5) * 100, 2),
-                        Math.Round((sla6 / (double)report6) * 100, 2), Math.Round((sla7 / (double)report7) * 100, 2), Math.Round((sla8 / (double)report8) * 100, 2),
-                        Math.Round((sla9 / (double)report9) * 100, 2), Math.Round((sla10 / (double)report10) * 100, 2), Math.Round((sla11 / (double)report11) * 100, 2),
-                        Math.Round((sla12 / (double)report12) * 100, 2), Math.Round((sla13 / (double)report13) * 100, 2), Math.Round((sla14 / (double)report14) * 100, 2),
-                        Math.Round((sla15 / (double)report15) * 100, 2)},
+                    Values = new ChartValues<double> { Math.Round(sla1 / (double)report1 * 100, 2), Math.Round(sla2 / (double)report2 * 100, 2),
+                        Math.Round(sla3 / (double)report3 * 100, 2), Math.Round(sla4 / (double)report4 * 100, 2), Math.Round(sla5 / (double)report5 * 100, 2),
+                        Math.Round(sla6 / (double)report6 * 100, 2), Math.Round(sla7 / (double)report7 * 100, 2), Math.Round(sla8 / (double)report8 * 100, 2),
+                        Math.Round(sla9 / (double)report9 * 100, 2), Math.Round(sla10 / (double)report10 * 100, 2), Math.Round(sla11 / (double)report11 * 100, 2),
+                        Math.Round(sla12 / (double)report12 * 100, 2), Math.Round(sla13 / (double)report13 * 100, 2), Math.Round(sla14 / (double)report14 * 100, 2),
+                        Math.Round(sla15 / (double)report15 * 100, 2)},
                     Fill = Brushes.Transparent,
                     StrokeThickness = 1,
                     LineSmoothness = 0,
                     Stroke = Brushes.DarkBlue,
+                    ScalesYAt = 1
                 }
             };
         }

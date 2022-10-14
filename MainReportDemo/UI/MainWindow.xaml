@@ -289,9 +289,9 @@
                 </TabItem.Header>
                 <TabItem.Content>
                     <StackPanel>
-                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Margin="10,10,10,10" Height="310">
+                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Margin="10,10,10,10" Height="270">
+                            
                             <lvc:CartesianChart.AxisY>
-                                
                                 <lvc:Axis Foreground="Gray">
                                     <lvc:Axis.Sections>
                                         <lvc:AxisSection/>
@@ -305,14 +305,13 @@
                             </lvc:CartesianChart.AxisY>
                             
                             <lvc:CartesianChart.AxisX>
-                                
                                 <lvc:Axis>
                                     <lvc:Axis.Sections>
                                         <lvc:AxisSection/>
                                     </lvc:Axis.Sections>
                                 </lvc:Axis>
-                                
                             </lvc:CartesianChart.AxisX>
+                            
                         </lvc:CartesianChart>
                     </StackPanel>
                 </TabItem.Content>

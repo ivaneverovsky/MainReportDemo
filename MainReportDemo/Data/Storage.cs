@@ -12,8 +12,6 @@ namespace MainReportDemo.Data
             _reports.Add(report);
         }
 
-
-
         private List<object> _dbData = new List<object>();
         public List<object> dbData { get { return _dbData; } }
         public void AddData(object row)
@@ -21,12 +19,18 @@ namespace MainReportDemo.Data
             _dbData.Add(row);
         }
 
-
+        private List<Graph> _graphData = new List<Graph>();
+        public List<Graph> GraphData { get { return _graphData; } }
+        public void AddGraph(Graph graph)
+        {
+            _graphData.Add(graph);
+        }
 
         public void ClearLists()
         {
             _reports.Clear();
             _dbData.Clear();
+            _graphData.Clear();
         }
     }
 }

@@ -184,6 +184,8 @@ namespace MainReportDemo
 
             _calc.BuildGraph();
             graphSLA.Series = _calc.SeriesCollection;
+            graphSLA.AxisX[0].Labels = _calc.Labels;
+            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
         }
 
         //parse db data to contracts list

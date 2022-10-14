@@ -49,8 +49,9 @@ namespace MainReportDemo.Data
 
         //graph fields
         public SeriesCollection SeriesCollection { get; set; }
-        //public Func<double, string> Formatter { get; set; } = value => value.ToString() + "%";
-        //public List<string> Labels = new List<string> { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь" };
+        public Func<double, string> Formatter { get; set; } = value => value.ToString() + "%";
+        public List<string> Labels = new List<string> { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь", "Октябрь", "Ноябрь", "Декабрь" };
+        
         private int report1;
         private int report2;
         private int report3;
@@ -496,11 +497,16 @@ namespace MainReportDemo.Data
                 new LineSeries
                 {
                     Title = "% обращений с нарушенным SLA",
-                    Values = new ChartValues<double> { sla1, sla2, sla3, sla4, sla5, sla6, sla7, sla8, sla9, sla10, sla11, sla12, sla13, sla14, sla15},
+                    Values = new ChartValues<double> { Math.Round((sla1 / (double)report1) * 100, 2), Math.Round((sla2 / (double)report2) * 100, 2),
+                        Math.Round((sla3 / (double)report3) * 100, 2), Math.Round((sla4 / (double)report4) * 100, 2), Math.Round((sla5 / (double)report5) * 100, 2),
+                        Math.Round((sla6 / (double)report6) * 100, 2), Math.Round((sla7 / (double)report7) * 100, 2), Math.Round((sla8 / (double)report8) * 100, 2),
+                        Math.Round((sla9 / (double)report9) * 100, 2), Math.Round((sla10 / (double)report10) * 100, 2), Math.Round((sla11 / (double)report11) * 100, 2),
+                        Math.Round((sla12 / (double)report12) * 100, 2), Math.Round((sla13 / (double)report13) * 100, 2), Math.Round((sla14 / (double)report14) * 100, 2),
+                        Math.Round((sla15 / (double)report15) * 100, 2)},
                     Fill = Brushes.Transparent,
                     StrokeThickness = 1,
                     LineSmoothness = 0,
-                    Stroke = Brushes.DarkBlue
+                    Stroke = Brushes.DarkBlue,
                 }
             };
         }

@@ -53,7 +53,7 @@ namespace MainReportDemo.Data
         public SeriesCollection SeriesCollection { get; set; }
         public Func<double, string> Formatter { get; set; } = value => value.ToString() + "%";
         public List<string> Labels = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" };
-        
+
         private int report1;
         private int report2;
         private int report3;
@@ -505,6 +505,39 @@ namespace MainReportDemo.Data
                         Math.Round(sla9 / (double)report9 * 100, 2), Math.Round(sla10 / (double)report10 * 100, 2), Math.Round(sla11 / (double)report11 * 100, 2),
                         Math.Round(sla12 / (double)report12 * 100, 2), Math.Round(sla13 / (double)report13 * 100, 2), Math.Round(sla14 / (double)report14 * 100, 2),
                         Math.Round(sla15 / (double)report15 * 100, 2)},
+                    Fill = Brushes.Transparent,
+                    StrokeThickness = 1,
+                    LineSmoothness = 0,
+                    Stroke = Brushes.DarkBlue,
+                    ScalesYAt = 1
+                }
+            };
+        }
+
+        //last graph state
+        public void GraphLastState(Graph last)
+        {
+            SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Поступило обращений",
+                    Values = new ChartValues<int> { last.Report1, last.Report2, last.Report3, last.Report4, last.Report5, last.Report6, last.Report7,
+                        last.Report8, last.Report9, last.Report10, last.Report11, last.Report12, last.Report13, last.Report14, last.Report15},
+                    Fill = Brushes.Gray,
+                },
+
+                new LineSeries
+                {
+                    Title = "% обращений с нарушенным SLA",
+                    Values = new ChartValues<double> { Math.Round(last.SLA1 / (double)last.Report1 * 100, 2), Math.Round(last.SLA2 / (double)last.Report2 * 100, 2),
+                        Math.Round(last.SLA3 / (double)last.Report3 * 100, 2), Math.Round(last.SLA4 / (double)last.Report4 * 100, 2), 
+                        Math.Round(last.SLA5 / (double)last.Report5 * 100, 2), Math.Round(last.SLA6 / (double)last.Report6 * 100, 2), 
+                        Math.Round(last.SLA7 / (double)last.Report7 * 100, 2), Math.Round(last.SLA8 / (double)last.Report8 * 100, 2),
+                        Math.Round(last.SLA9 / (double)last.Report9 * 100, 2), Math.Round(last.SLA10 / (double)last.Report10 * 100, 2), 
+                        Math.Round(last.SLA11 / (double)last.Report11 * 100, 2), Math.Round(last.SLA12 / (double)last.Report12 * 100, 2), 
+                        Math.Round(last.SLA13 / (double)last.Report13 * 100, 2), Math.Round(last.SLA14 / (double)last.Report14 * 100, 2),
+                        Math.Round(last.SLA15 / (double)last.Report15 * 100, 2)},
                     Fill = Brushes.Transparent,
                     StrokeThickness = 1,
                     LineSmoothness = 0,

@@ -2,6 +2,7 @@
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace MainReportDemo
@@ -107,12 +108,11 @@ namespace MainReportDemo
             try
             {
                 _calc.LoadData();
-                CountReports();
-                BuildGraph();
+                Restore();
             }
             catch
             {
-                MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.\nНовый файл состояния запишется после произведения расчета.", "Внимание");
+                MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.", "Внимание");
             }
             
         }
@@ -192,7 +192,6 @@ namespace MainReportDemo
         //build graph
         private void BuildGraph()
         {
-
             foreach (object contract in contractsList)
                 _calc.GraphBuilder(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, contract.ToString());
 
@@ -360,6 +359,28 @@ namespace MainReportDemo
             l13.Clear();
             l14.Clear();
             l15.Clear();
+        }
+
+        //restore saved data
+        private void Restore()
+        {
+            List<Report> restoredReports = _calc.CollectReports();
+
+            for (int i = 0; i < restoredReports.Count; i++)
+            {
+                reportListView.Items.Add(restoredReports[i]);
+                slaListView.Items.Add(restoredReports[i]);
+            }
+
+            List<Graph> restoredGraph = _calc.CollectGraph();
+            Graph last = restoredGraph.Last();
+            _calc.GraphLastState(last);
+            graphSLA.Series = _calc.SeriesCollection;
+            graphSLA.AxisX[0].Labels = _calc.Labels;
+            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+
+            //make sure that info stored in program data
+
         }
     }
 }

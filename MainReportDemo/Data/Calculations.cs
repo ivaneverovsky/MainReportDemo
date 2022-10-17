@@ -8,8 +8,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
-using System.Data;
-using System.Xml.Serialization;
 
 namespace MainReportDemo.Data
 {
@@ -623,7 +621,7 @@ namespace MainReportDemo.Data
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream fs = new FileStream("data.dat", FileMode.Open, FileAccess.Read);
-            Storage storage = (Storage)formatter.Deserialize(fs);
+            _stor = (Storage)formatter.Deserialize(fs);
             fs.Close();
         }
     }

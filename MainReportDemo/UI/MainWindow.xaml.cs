@@ -380,23 +380,22 @@ namespace MainReportDemo
         //restore saved data
         private void Restore()
         {
+            //collect reports
             List<Report> restoredReports = _calc.CollectReports();
-
             for (int i = 0; i < restoredReports.Count; i++)
             {
                 reportListView.Items.Add(restoredReports[i]);
                 slaListView.Items.Add(restoredReports[i]);
             }
 
+            //collect graphs
             List<Graph> restoredGraph = _calc.CollectGraph();
+            //because of program logic, last graph contains actual info
             Graph last = restoredGraph.Last();
             _calc.GraphLastState(last);
             graphSLA.Series = _calc.SeriesCollection;
             graphSLA.AxisX[0].Labels = _calc.Labels;
             graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
-
-            //make sure that info stored in program data
-
         }
 
         //export data to file

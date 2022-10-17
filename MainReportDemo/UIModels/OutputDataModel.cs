@@ -17,5 +17,11 @@ namespace MainReportDemo.UIModels
             string month = MonthList[time.Month - 1];
             return month;
         }
+
+        public string ReturnMonthGraph(DateTime dt)
+        {
+            string month = MonthList[dt.Month - 1];
+            return month;
+        }
     }
 }

@@ -281,20 +281,35 @@ namespace MainReportDemo
 
             //date for graph
             d1 = MonthDate.AddMonths(-14);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d1));
             d2 = MonthDate.AddMonths(-13);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d2));
             d3 = MonthDate.AddMonths(-12);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d3));
             d4 = MonthDate.AddMonths(-11);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d4));
             d5 = MonthDate.AddMonths(-10);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d5));
             d6 = MonthDate.AddMonths(-9);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d6));
             d7 = MonthDate.AddMonths(-8);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d7));
             d8 = MonthDate.AddMonths(-7);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d8));
             d9 = MonthDate.AddMonths(-6);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d9));
             d10 = MonthDate.AddMonths(-5);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d10));
             d11 = MonthDate.AddMonths(-4);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d11));
             d12 = MonthDate.AddMonths(-3);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d12));
             d13 = MonthDate.AddMonths(-2);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d13));
             d14 = MonthDate.AddMonths(-1);
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d14));
             d15 = MonthDate;
+            _calc.Labels.Add(_odm.ReturnMonthGraph(d15));
         }
 
         //set db requests

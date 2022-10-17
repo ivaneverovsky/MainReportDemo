@@ -52,7 +52,7 @@ namespace MainReportDemo.Data
         //graph fields
         public SeriesCollection SeriesCollection { get; set; }
         public Func<double, string> Formatter { get; set; } = value => value.ToString() + "%";
-        public List<string> Labels = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" };
+        public List<string> Labels = new List<string>();
 
         private int report1;
         private int report2;

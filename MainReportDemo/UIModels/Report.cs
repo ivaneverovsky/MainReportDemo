@@ -1,5 +1,8 @@
-﻿namespace MainReportDemo.UIModels
+﻿using System;
+
+namespace MainReportDemo.UIModels
 {
+    [Serializable]
     internal class Report
     {
         public string Color { get; set; }

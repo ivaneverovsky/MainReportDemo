@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LiveCharts.Wpf;
-using LiveCharts;
-using System.Windows.Media;
 
 namespace MainReportDemo.UIModels
 {
+    [Serializable]
     internal class Graph
     {
         public string ContractName { get; set; }

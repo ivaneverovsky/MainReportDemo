@@ -6,6 +6,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System.Data;
+using System.Xml.Serialization;
 
 namespace MainReportDemo.Data
 {
@@ -50,7 +54,7 @@ namespace MainReportDemo.Data
         //graph fields
         public SeriesCollection SeriesCollection { get; set; }
         public Func<double, string> Formatter { get; set; } = value => value.ToString() + "%";
-        public List<string> Labels = new List<string> { "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь", "Октябрь", "Ноябрь", "Декабрь" };
+        public List<string> Labels = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" };
         
         private int report1;
         private int report2;
@@ -603,6 +607,24 @@ namespace MainReportDemo.Data
         {
             GraphResetValues();
             _stor.ClearLists();
+        }
+
+        //save program state
+        public void SaveData()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream fs = new FileStream("data.dat", FileMode.Create, FileAccess.Write);
+            formatter.Serialize(fs, _stor);
+            fs.Close();
+        }
+
+        //load program state
+        public void LoadData()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream fs = new FileStream("data.dat", FileMode.Open, FileAccess.Read);
+            Storage storage = (Storage)formatter.Deserialize(fs);
+            fs.Close();
         }
     }
 }

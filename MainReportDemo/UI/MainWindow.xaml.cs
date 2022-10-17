@@ -104,6 +104,19 @@ namespace MainReportDemo
             //shows report date
             reportDateMonth.Text = _odm.ReportDateMonth;
             reportDateYear.Text = _odm.ReportDateYear;
+
+            //try load program state
+            try
+            {
+                _calc.LoadData();
+                CountReports();
+                BuildGraph();
+            }
+            catch
+            {
+                MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.\nНовый файл состояния запишется после произведения расчета.", "Внимание");
+            }
+            
         }
 
         //get contracts list from db
@@ -158,6 +171,9 @@ namespace MainReportDemo
             //count graph
             GetGraphData();
             BuildGraph();
+
+            //save program state
+            _calc.SaveData();
         }
 
         //count reports

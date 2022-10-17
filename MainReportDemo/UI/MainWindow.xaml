@@ -343,6 +343,6 @@
             </ListView.View>
         </ListView>
         <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Достуные сервисные контракты" FontWeight="Bold" VerticalAlignment="Center" Height="20" Margin="10,0,186,0" Grid.Column="1"/>
-        <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Margin="0,0,10,0" Grid.Row="6" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="68"/>
+        <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Margin="0,0,10,0" Grid.Row="6" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="68" Click="Export"/>
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -381,6 +382,33 @@ namespace MainReportDemo
 
             //make sure that info stored in program data
 
+        }
+
+        //export data to file
+        private void Export(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter("result.csv", false);
+                sw.WriteLine("Color;ColorYear;ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
+                    "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
+                    "NoMark;Restart;");
+                foreach (var item in _calc.CollectReports())
+                    sw.WriteLine(item.Color + ";" + item.ColorYear + ";" + item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";" 
+                        + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";" 
+                        + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";" 
+                        + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";" 
+                        + item.NoMark + ";" + item.Restart + ";");
+
+                sw.Flush();
+                sw.Close();
+
+                MessageBox.Show("Файл записан.", "Готово");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
         }
     }
 }

@@ -27,7 +27,7 @@
         <TextBlock x:Name ="reportDateYear" FontWeight="Bold" FontSize="12" HorizontalAlignment="Left" Margin="85,0,0,0"
                    Text="{Binding ReportDateYear}" VerticalAlignment="Center" Width="70" Height="20"/>
 
-        <Button Content="Вычислить" HorizontalAlignment="Left" Margin="10,0,0,0" Width="68" ToolTip="Сделать расчет сервисной деятельности" Click="Count" Grid.Row="6" Height="20" VerticalAlignment="Center"/>
+        <Button Content="Вычислить" FontWeight="Bold" HorizontalAlignment="Left" Margin="10,0,0,0" Width="70" ToolTip="Сделать расчет сервисной деятельности" Click="Count" Grid.Row="6" Height="20" VerticalAlignment="Center"/>
 
 
         <TabControl x:Name="MainReportTab" Margin="10,10,10,10" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2">
@@ -290,7 +290,7 @@
                 <TabItem.Content>
                     <StackPanel>
                         <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Grid.ColumnSpan="2" Grid.Row="4" Grid.RowSpan="2" Margin="10,10,10,10" Height="270">
-                            
+
                             <lvc:CartesianChart.AxisY>
                                 <lvc:Axis Foreground="Gray">
                                     <lvc:Axis.Sections>
@@ -303,7 +303,7 @@
                                     </lvc:Axis.Sections>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
-                            
+
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis>
                                     <lvc:Axis.Sections>
@@ -311,7 +311,7 @@
                                     </lvc:Axis.Sections>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisX>
-                            
+
                         </lvc:CartesianChart>
                     </StackPanel>
                 </TabItem.Content>
@@ -344,5 +344,7 @@
         </ListView>
         <TextBlock Grid.Row="1" TextWrapping="Wrap" Text="Достуные сервисные контракты" FontWeight="Bold" VerticalAlignment="Center" Height="20" Margin="10,0,186,0" Grid.Column="1"/>
         <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Margin="0,0,10,0" Grid.Row="6" VerticalAlignment="Center" Height="20" HorizontalAlignment="Right" Width="68" Click="Export"/>
+        <Button Content="Файл ЦДС" ToolTip="Загрузить оценки ЦДС" HorizontalAlignment="Left" Margin="85,0,0,0" Grid.Row="6" VerticalAlignment="Center" Width="68" Height="20" Click="LoadFile"/>
+        <TextBox x:Name="txtBoxFilePath" IsEnabled="False" Margin="158,0,200,0" Grid.Row="6" TextWrapping="Wrap" Text="Выберете файл с оценками ЦДС" VerticalAlignment="Center" Height="20" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

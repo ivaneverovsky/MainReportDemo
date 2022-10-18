@@ -63,6 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\Calculations.cs" />
     <Compile Include="Data\DBConnection.cs" />
+    <Compile Include="Data\FileLoader.cs" />
     <Compile Include="Data\Storage.cs" />
     <Compile Include="UIModels\Graph.cs" />
     <Compile Include="UIModels\OutputDataModel.cs" />

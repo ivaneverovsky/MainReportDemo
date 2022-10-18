@@ -1,5 +1,6 @@
 ﻿using MainReportDemo.Data;
 using MainReportDemo.UIModels;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,7 @@ namespace MainReportDemo
         OutputDataModel _odm = new OutputDataModel();
         DBConnection _db = new DBConnection();
         Calculations _calc = new Calculations();
+        FileLoader _fl = new FileLoader();
 
         //store contracts from db 
         private List<object> dbData = new List<object>();
@@ -42,6 +44,9 @@ namespace MainReportDemo
         //store contracts
         private List<object> contractsList = new List<object>();
         private List<object> deletedContracts = new List<object>();
+
+        //store CDS marks
+        private List<string> cdsList = new List<string>();
 
         //datetime for contracts
         private DateTime yearDate;
@@ -423,6 +428,17 @@ namespace MainReportDemo
             {
                 MessageBox.Show(ex.Message, "Ошибка");
             }
+        }
+
+        //load file with CDS marks
+        private async void LoadFile(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel files (*.xlsx)|*.xlsx";
+            if (ofd.ShowDialog() == true)
+                txtBoxFilePath.Text = ofd.FileName;
+
+            await _fl.LoadFile(ofd);
         }
     }
 }

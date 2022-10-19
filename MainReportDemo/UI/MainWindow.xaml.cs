@@ -200,6 +200,7 @@ namespace MainReportDemo
             {
                 reportListView.Items.Add(reportList[i]);
                 slaListView.Items.Add(reportList[i]);
+                crisisListView.Items.Add(reportList[i]);
             }
         }
 
@@ -360,6 +361,7 @@ namespace MainReportDemo
             //clear list views
             reportListView.Items.Clear();
             slaListView.Items.Clear();
+            crisisListView.Items.Clear();
 
             //clear graph
             graphSLA.Update();
@@ -399,6 +401,7 @@ namespace MainReportDemo
             {
                 reportListView.Items.Add(restoredReports[i]);
                 slaListView.Items.Add(restoredReports[i]);
+                crisisListView.Items.Add(restoredReports[i]);
             }
 
             //collect graphs
@@ -454,6 +457,12 @@ namespace MainReportDemo
                 txtBoxFilePath.Text = ofd.FileName;
 
             fileRows = _fl.LoadFile(ofd);
+        }
+
+        //reload crisis incidents
+        private void Reload(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("duck");
         }
     }
 }

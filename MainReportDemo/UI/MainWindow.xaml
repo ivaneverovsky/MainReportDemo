@@ -317,6 +317,60 @@
                 </TabItem.Content>
             </TabItem>
 
+            <TabItem x:Name="incidentsTab">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Список инцидентов</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+                <TabItem.Content>
+                    <StackPanel>
+                        <ListView x:Name="crisisListView" BorderBrush="CornflowerBlue" HorizontalContentAlignment="Stretch" 
+                  VerticalContentAlignment="Stretch" FontSize="12" FontFamily="Calibri" BorderThickness="2,2,2,2" 
+                  IsTextSearchEnabled="False" Margin="10,10,10,10" Focusable="False" Height="240">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="Учёт" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Номер заявки" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RegNum}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    
+                                    <GridViewColumn Header="Сервисный контракт" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ContractName}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Статус" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="Обновить" ToolTip="Обновить данные расчета" Height="20" Width="68" Click="Reload"/>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+
         </TabControl>
 
         <Button Content="Добавить" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="3" ToolTip="Добавить наименование контракта в список контрактов" VerticalAlignment="Center" Height="20" Width="68" Click="Add" Grid.Column="1"/>

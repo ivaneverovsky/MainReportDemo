@@ -91,6 +91,7 @@ namespace MainReportDemo.Data
         {
             ContractResetValues();
 
+            //count values
             Task[] tasks = new Task[3]
             {
                 new Task(() => MonthCounter(dbDataMonth, contract)),
@@ -396,6 +397,7 @@ namespace MainReportDemo.Data
                 }
             }
         }
+
         //count month
         private void MonthCounter(List<object> dbDataMonth, string contractName)
         {
@@ -495,6 +497,25 @@ namespace MainReportDemo.Data
                 colorYear = "Yellow";
 
             slaYear = Math.Round((1 - SLABreakCounterYear / (double)reportAmountYear) * 100, 2);
+        }
+
+        //check db values for dbList
+        public List<object> dbCheck(List<object> list)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                object[] value = (object[])list[i];
+                if (value[1].ToString() != "")
+                    for (int j = 0; j < _stor.Marks.Count; j++)
+                        if (_stor.Marks[j].RegNum == value[1].ToString())
+                        {
+                            value[18] = _stor.Marks[j].Mark;
+                            list.RemoveAt(i);
+                            list.Add(value);
+                        }
+            }
+
+            return list;
         }
 
         //build graph

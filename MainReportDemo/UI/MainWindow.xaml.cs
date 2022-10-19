@@ -171,12 +171,15 @@ namespace MainReportDemo
             //build cds marks model
             _calc.FileBuilder(fileRows);
 
-            //count contract
+            //get contracts and graph info
             await GetContractsData();
-            CountReports();
-            
-            //count graph
             await GetGraphData();
+
+            //check values with file and rewrite month list from db
+            dbDataMonth = _calc.dbCheck(dbDataMonth);
+
+            //count contracts and graph
+            CountReports();
             BuildGraph();
             
             //save program state
@@ -400,14 +403,16 @@ namespace MainReportDemo
 
             //collect graphs
             List<Graph> restoredGraph = _calc.CollectGraph();
+
             //because of program logic, last graph contains actual info
             Graph last = restoredGraph.Last();
             _calc.GraphLastState(last);
+
             graphSLA.Series = _calc.SeriesCollection;
             graphSLA.AxisX[0].Labels = _calc.Labels;
             graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
 
-            //collect cds
+            //cds info
             txtBoxFilePath.Text = "Оценки ЦДС были восстановлены. Для обновления загрузите новый файл.";
         }
 
@@ -440,6 +445,9 @@ namespace MainReportDemo
         //load file with CDS marks
         private void LoadFile(object sender, RoutedEventArgs e)
         {
+            //clear cds dictionary first
+            fileRows.Clear();
+
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Excel files (*.xlsx)|*.xlsx";
             if (ofd.ShowDialog() == true)

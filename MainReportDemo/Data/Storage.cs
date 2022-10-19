@@ -14,6 +14,13 @@ namespace MainReportDemo.Data
             _reports.Add(report);
         }
 
+        private List<CDS> _marks = new List<CDS>();
+        public List<CDS> Marks { get { return _marks; } }
+        public void AddMark(CDS cds)
+        {
+            _marks.Add(cds);
+        }
+
         private List<Graph> _graphData = new List<Graph>();
         public List<Graph> GraphData { get { return _graphData; } }
         public void AddGraph(Graph graph)
@@ -25,6 +32,7 @@ namespace MainReportDemo.Data
         {
             _reports.Clear();
             _graphData.Clear();
+            _marks.Clear();
         }
     }
 }

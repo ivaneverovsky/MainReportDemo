@@ -116,6 +116,7 @@ namespace MainReportDemo.Data
             _stor.AddReport(report);
         }
 
+        //graph builder
         public void GraphBuilder(List<object> l1, List<object> l2, List<object> l3, List<object> l4, List<object> l5, List<object> l6, List<object> l7,
             List<object> l8, List<object> l9, List<object> l10, List<object> l11, List<object> l12, List<object> l13, List<object> l14, List<object> l15,
             string contract)
@@ -157,6 +158,19 @@ namespace MainReportDemo.Data
 
             _stor.AddGraph(graph);
         }
+
+        //file builder
+        public void FileBuilder(Dictionary<object, object> file)
+        {
+            foreach (var row in file)
+            {
+                if (row.Value.ToString() != "")
+                {
+                    var mark = new CDS(row.Key.ToString(), row.Value.ToString());
+                    _stor.AddMark(mark);
+                }
+            }
+        }        
 
         //count month 1
         private void rs1(List<object> l, string contractName)

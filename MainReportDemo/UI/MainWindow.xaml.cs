@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace MainReportDemo
@@ -45,8 +46,8 @@ namespace MainReportDemo
         private List<object> contractsList = new List<object>();
         private List<object> deletedContracts = new List<object>();
 
-        //store CDS marks
-        private List<string> cdsList = new List<string>();
+        //store data from cds file
+        Dictionary<object, object> fileRows = new Dictionary<object, object>();
 
         //datetime for contracts
         private DateTime yearDate;
@@ -120,7 +121,6 @@ namespace MainReportDemo
             {
                 MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.", "Внимание");
             }
-            
         }
 
         //get contracts list from db
@@ -132,7 +132,7 @@ namespace MainReportDemo
         }
 
         //get data for contracts from db
-        private async void GetContractsData()
+        private async Task GetContractsData()
         {
             await _db.CreateConnection();
             dbDataMonth = await _db.SendCommandRequest(monthRequest);
@@ -142,7 +142,7 @@ namespace MainReportDemo
         }
 
         //get data for graph
-        private async void GetGraphData()
+        private async Task GetGraphData()
         {
             await _db.CreateConnection();
             l1 = await _db.SendCommandRequest(r1);
@@ -164,20 +164,25 @@ namespace MainReportDemo
         }
 
         //button "Вычислить", count everything
-        private void Count(object sender, RoutedEventArgs e) 
+        private async void Count(object sender, RoutedEventArgs e) 
         {
             Cleaning();
 
+            //build cds marks model
+            _calc.FileBuilder(fileRows);
+
             //count contract
-            GetContractsData();
+            await GetContractsData();
             CountReports();
-
+            
             //count graph
-            GetGraphData();
+            await GetGraphData();
             BuildGraph();
-
+            
             //save program state
             _calc.SaveData();
+
+            txtBoxFilePath.Text = "Готово";
         }
 
         //count reports
@@ -401,6 +406,9 @@ namespace MainReportDemo
             graphSLA.Series = _calc.SeriesCollection;
             graphSLA.AxisX[0].Labels = _calc.Labels;
             graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+
+            //collect cds
+            txtBoxFilePath.Text = "Оценки ЦДС были восстановлены. Для обновления загрузите новый файл.";
         }
 
         //export data to file
@@ -419,7 +427,6 @@ namespace MainReportDemo
                         + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";" 
                         + item.NoMark + ";" + item.Restart + ";");
 
-                sw.Flush();
                 sw.Close();
 
                 MessageBox.Show("Файл записан.", "Готово");
@@ -431,14 +438,14 @@ namespace MainReportDemo
         }
 
         //load file with CDS marks
-        private async void LoadFile(object sender, RoutedEventArgs e)
+        private void LoadFile(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Excel files (*.xlsx)|*.xlsx";
             if (ofd.ShowDialog() == true)
                 txtBoxFilePath.Text = ofd.FileName;
 
-            await _fl.LoadFile(ofd);
+            fileRows = _fl.LoadFile(ofd);
         }
     }
 }

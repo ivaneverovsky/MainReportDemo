@@ -284,7 +284,7 @@
             <TabItem x:Name="crisisTab">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="3">КИ</TextBlock>
+                        <TextBlock Margin="3">Диаграмма</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
@@ -320,7 +320,7 @@
             <TabItem x:Name="incidentsTab">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="3">Список инцидентов</TextBlock>
+                        <TextBlock Margin="3">КИ</TextBlock>
                     </StackPanel>
                 </TabItem.Header>
                 <TabItem.Content>
@@ -334,7 +334,7 @@
                                     <GridViewColumn Header="Учёт" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox/>
+                                                <CheckBox Checked="Check" Unchecked="UnCheck" IsChecked="{Binding Check}"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -359,6 +359,22 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Status}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Сервис" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ServiceName}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Описание" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Description}" Margin="0 10 30 0" TextWrapping="NoWrap" TextAlignment="Center" Foreground="Black"/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

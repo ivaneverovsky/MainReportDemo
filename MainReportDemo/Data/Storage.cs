@@ -28,11 +28,19 @@ namespace MainReportDemo.Data
             _graphData.Add(graph);
         }
 
+        private List<CI> _crisisData = new List<CI>();
+        public List<CI> CrisisData { get { return _crisisData; } }
+        public void AddCrisis(CI ci)
+        {
+            _crisisData.Add(ci);
+        }
+
         public void ClearLists()
         {
             _reports.Clear();
             _graphData.Clear();
             _marks.Clear();
+            _crisisData.Clear();
         }
     }
 }

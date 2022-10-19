@@ -73,6 +73,7 @@
     <Compile Include="Data\FileLoader.cs" />
     <Compile Include="Data\Storage.cs" />
     <Compile Include="UIModels\CDS.cs" />
+    <Compile Include="UIModels\CI.cs" />
     <Compile Include="UIModels\Graph.cs" />
     <Compile Include="UIModels\OutputDataModel.cs" />
     <Compile Include="UIModels\Report.cs" />

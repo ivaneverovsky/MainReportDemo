@@ -178,9 +178,10 @@ namespace MainReportDemo
             //check values with file and rewrite month list from db
             dbDataMonth = _calc.dbCheck(dbDataMonth);
 
-            //count contracts and graph
+            //count contracts, graph and crisis incidents
             CountReports();
             BuildGraph();
+            CountCrisis();
             
             //save program state
             _calc.SaveData();
@@ -200,7 +201,6 @@ namespace MainReportDemo
             {
                 reportListView.Items.Add(reportList[i]);
                 slaListView.Items.Add(reportList[i]);
-                crisisListView.Items.Add(reportList[i]);
             }
         }
 
@@ -214,6 +214,15 @@ namespace MainReportDemo
             graphSLA.Series = _calc.SeriesCollection;
             graphSLA.AxisX[0].Labels = _calc.Labels;
             graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+        }
+
+        //show crisis
+        private void CountCrisis()
+        {
+            List<CI> ciList = _calc.CollectCI();
+
+            for (int i = 0; i < ciList.Count; i++)
+                crisisListView.Items.Add(ciList[i]);
         }
 
         //parse db data to contracts list
@@ -401,7 +410,6 @@ namespace MainReportDemo
             {
                 reportListView.Items.Add(restoredReports[i]);
                 slaListView.Items.Add(restoredReports[i]);
-                crisisListView.Items.Add(restoredReports[i]);
             }
 
             //collect graphs
@@ -414,6 +422,9 @@ namespace MainReportDemo
             graphSLA.Series = _calc.SeriesCollection;
             graphSLA.AxisX[0].Labels = _calc.Labels;
             graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+
+            //restore crisis
+            CountCrisis();
 
             //cds info
             txtBoxFilePath.Text = "Оценки ЦДС были восстановлены. Для обновления загрузите новый файл.";
@@ -463,6 +474,16 @@ namespace MainReportDemo
         private void Reload(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("duck");
+        }
+
+        //check box sender
+        private void Check(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("durachok");
+        }
+        private void UnCheck(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("un durachok");
         }
     }
 }

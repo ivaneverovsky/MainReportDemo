@@ -406,6 +406,16 @@ namespace MainReportDemo.Data
                 object[] value = (object[])dbDataMonth[i];
                 if (value[11].ToString() == contractName)
                 {
+                    if (value[6].ToString() == "True")
+                    {
+                        //critical++;
+
+                        var ci = new CI("False", value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString());
+                        _stor.AddCrisis(ci);
+
+                        continue;
+                    }
+
                     reportAmount++;
 
                     if (value[3].ToString() == "Запрос на обслуживание")
@@ -422,9 +432,6 @@ namespace MainReportDemo.Data
                         requestsChange++;
                     else if (value[3].ToString() == "Запрос на доступ")
                         requestsAccess++;
-
-                    if (value[6].ToString() == "True")
-                        critical++;
 
                     if (value[13].ToString() != "")
                         SLABreakCounter++;
@@ -445,10 +452,10 @@ namespace MainReportDemo.Data
                 }
             }
 
-            if (critical >= 2)
-                color = "Red";
-            else if (critical == 1)
-                color = "Yellow";
+            //if (critical >= 2)
+            //    color = "Red";
+            //else if (critical == 1)
+            //    color = "Yellow";
 
             slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
         }
@@ -481,20 +488,27 @@ namespace MainReportDemo.Data
 
                 if (value[11].ToString() == contractName)
                 {
-                    reportAmountYear++;
-
                     if (value[6].ToString() == "True")
-                        criticalYear++;
+                    {
+                        //criticalYear++;
+
+                        var ci = new CI("False", value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString());
+                        _stor.AddCrisis(ci);
+
+                        continue;
+                    }
+
+                    reportAmountYear++;
 
                     if (value[13].ToString() != "")
                         SLABreakCounterYear++;
                 }
             }
 
-            if (criticalYear >= 2)
-                colorYear = "Red";
-            else if (criticalYear == 1)
-                colorYear = "Yellow";
+            //if (criticalYear >= 2)
+            //    colorYear = "Red";
+            //else if (criticalYear == 1)
+            //    colorYear = "Yellow";
 
             slaYear = Math.Round((1 - SLABreakCounterYear / (double)reportAmountYear) * 100, 2);
         }
@@ -592,6 +606,12 @@ namespace MainReportDemo.Data
         public List<Graph> CollectGraph()
         {
             return _stor.GraphData;
+        }
+
+        //collect crisis incidents from storage
+        public List<CI> CollectCI()
+        {
+            return _stor.CrisisData;
         }
 
         //reset contract counters

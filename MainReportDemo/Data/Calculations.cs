@@ -406,16 +406,6 @@ namespace MainReportDemo.Data
                 object[] value = (object[])dbDataMonth[i];
                 if (value[11].ToString() == contractName)
                 {
-                    if (value[6].ToString() == "True")
-                    {
-                        //critical++;
-
-                        var ci = new CI("False", value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString());
-                        _stor.AddCrisis(ci);
-
-                        continue;
-                    }
-
                     reportAmount++;
 
                     if (value[3].ToString() == "Запрос на обслуживание")
@@ -432,6 +422,12 @@ namespace MainReportDemo.Data
                         requestsChange++;
                     else if (value[3].ToString() == "Запрос на доступ")
                         requestsAccess++;
+
+                    if (value[6].ToString() == "True")
+                    {   //create crisis incident
+                        var ci = new CI(value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString(), "Actual");
+                        _stor.AddCrisis(ci);
+                    }
 
                     if (value[13].ToString() != "")
                         SLABreakCounter++;
@@ -451,11 +447,6 @@ namespace MainReportDemo.Data
                         restart++;
                 }
             }
-
-            //if (critical >= 2)
-            //    color = "Red";
-            //else if (critical == 1)
-            //    color = "Yellow";
 
             slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
         }
@@ -488,29 +479,57 @@ namespace MainReportDemo.Data
 
                 if (value[11].ToString() == contractName)
                 {
-                    if (value[6].ToString() == "True")
-                    {
-                        //criticalYear++;
-
-                        var ci = new CI("False", value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString());
-                        _stor.AddCrisis(ci);
-
-                        continue;
-                    }
-
                     reportAmountYear++;
+
+                    if (value[6].ToString() == "True")
+                    {   //create crisis incident
+                        var ci = new CI(value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString(), "Old");
+                        _stor.AddCrisis(ci);
+                    }
 
                     if (value[13].ToString() != "")
                         SLABreakCounterYear++;
                 }
             }
 
-            //if (criticalYear >= 2)
-            //    colorYear = "Red";
-            //else if (criticalYear == 1)
-            //    colorYear = "Yellow";
-
             slaYear = Math.Round((1 - SLABreakCounterYear / (double)reportAmountYear) * 100, 2);
+        }
+
+        //count crisis
+        public void CrisisCounter(string period, string contractName)
+        {
+            if (period == "Old")
+            {
+                for (int i = 0; i < _stor.Reports.Count; i++)
+                {
+                    if (_stor.Reports[i].ContractName == contractName)
+                    {
+                        _stor.Reports[i].CriticalYear++;
+                        if (_stor.Reports[i].CriticalYear <= 1)
+                            _stor.Reports[i].ColorYear = "Yellow";
+                        else if (_stor.Reports[i].CriticalYear >= 2)
+                            _stor.Reports[i].ColorYear = "Red";
+
+                        break;
+                    }
+                }
+            }
+            else if (period == "Actual")
+            {
+                for (int i = 0; i < _stor.Reports.Count; i++)
+                {
+                    if (_stor.Reports[i].ContractName == contractName)
+                    {
+                        _stor.Reports[i].Critical++;
+                        if (_stor.Reports[i].Critical <= 1)
+                            _stor.Reports[i].Color = "Yellow";
+                        else if (_stor.Reports[i].Critical >= 2)
+                            _stor.Reports[i].Color = "Red";
+
+                        break;
+                    }
+                }
+            }
         }
 
         //check db values for dbList

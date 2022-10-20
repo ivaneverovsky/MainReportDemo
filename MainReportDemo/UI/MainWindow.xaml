@@ -331,14 +331,6 @@
                             <ListView.View>
                                 <GridView>
 
-                                    <GridViewColumn Header="Учёт" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <CheckBox Checked="Check" Unchecked="UnCheck" IsChecked="{Binding Check}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
                                     <GridViewColumn Header="Номер заявки" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -382,7 +374,7 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                        <Button Content="Обновить" ToolTip="Обновить данные расчета" Height="20" Width="68" Click="Reload"/>
+                        <Button Content="Добавить" ToolTip="Добавить выделенные кризисные инциденты в расчет" Height="20" Width="68" Click="Reload"/>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>

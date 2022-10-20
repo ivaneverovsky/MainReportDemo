@@ -47,6 +47,10 @@ namespace MainReportDemo
         private List<object> contractsList = new List<object>();
         private List<object> deletedContracts = new List<object>();
 
+        //store crisis incidents
+        private List<CI> crisisList = new List<CI>();
+        private List<CI> selectedCrisisList = new List<CI>();
+
         //store data from cds file
         Dictionary<object, object> fileRows = new Dictionary<object, object>();
 
@@ -56,7 +60,7 @@ namespace MainReportDemo
         private DateTime QuaterFDate;
         private DateTime MonthDate;
 
-        //Quarter
+        //Quarter value
         string quarter;
 
         //datetime for graph
@@ -190,7 +194,7 @@ namespace MainReportDemo
             //save program state
             _calc.SaveData();
 
-            txtBoxFilePath.Text = "Готово";
+            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавляются вручную.";
         }
 
         //count reports
@@ -226,7 +230,10 @@ namespace MainReportDemo
             List<CI> ciList = _calc.CollectCI();
 
             for (int i = 0; i < ciList.Count; i++)
+            {
+                crisisList.Add(ciList[i]);
                 crisisListView.Items.Add(ciList[i]);
+            }
         }
 
         //parse db data to contracts list
@@ -484,17 +491,25 @@ namespace MainReportDemo
         //reload crisis incidents
         private void Reload(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("duck");
-        }
+            foreach (CI item in crisisListView.SelectedItems)
+                selectedCrisisList.Add(item);
 
-        //check box sender
-        private void Check(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("durachok");
-        }
-        private void UnCheck(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("un durachok");
+            foreach (CI item in selectedCrisisList)
+            {
+                crisisList.Remove(item);
+                crisisListView.Items.Remove(item);
+            }
+
+            foreach (CI contract in selectedCrisisList)
+                _calc.CrisisCounter(contract.Period, contract.ContractName);
+
+            selectedCrisisList.Clear();
+
+            //refresh UI list views
+            reportListView.Items.Refresh();
+            slaListView.Items.Refresh();
+
+            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавлены.";
         }
     }
 }

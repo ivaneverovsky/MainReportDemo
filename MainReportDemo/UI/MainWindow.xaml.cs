@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -54,6 +55,9 @@ namespace MainReportDemo
         private DateTime QuarterSDate;
         private DateTime QuaterFDate;
         private DateTime MonthDate;
+
+        //Quarter
+        string quarter;
 
         //datetime for graph
         private DateTime d1;
@@ -285,21 +289,25 @@ namespace MainReportDemo
             {
                 QuarterSDate = new DateTime(DateTime.Now.Year, 1, 1);
                 QuaterFDate = new DateTime(DateTime.Now.Year, 3, 31);
+                quarter = "I";
             }
             else if (DateTime.Now.Month >= 4 && DateTime.Now.Month <= 6)
             {
                 QuarterSDate = new DateTime(DateTime.Now.Year, 4, 1);
                 QuaterFDate = new DateTime(DateTime.Now.Year, 6, 30);
+                quarter = "II";
             }
             else if (DateTime.Now.Month >= 7 && DateTime.Now.Month <= 9)
             {
                 QuarterSDate = new DateTime(DateTime.Now.Year, 7, 1);
                 QuaterFDate = new DateTime(DateTime.Now.Year, 9, 30);
+                quarter = "III";
             }
             else
             {
                 QuarterSDate = new DateTime(DateTime.Now.Year, 10, 1);
                 QuaterFDate = new DateTime(DateTime.Now.Year, 12, 31);
+                quarter = "IV";
             }
 
             //date for graph
@@ -435,7 +443,7 @@ namespace MainReportDemo
         {
             try
             {
-                StreamWriter sw = new StreamWriter("result.csv", false);
+                StreamWriter sw = new StreamWriter("result.csv", false, Encoding.Default);
                 sw.WriteLine("Color;ColorYear;ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
                     "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
                     "NoMark;Restart;");
@@ -446,6 +454,9 @@ namespace MainReportDemo
                         + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";" 
                         + item.NoMark + ";" + item.Restart + ";");
 
+                sw.WriteLine("\n\nДанные за текущий месяц: " + MonthDate.Month.ToString() + "." + MonthDate.Year.ToString());
+                sw.WriteLine("Квартал: " + QuarterSDate.Day.ToString() + "." + QuarterSDate.Month.ToString() + "." + QuarterSDate.Year.ToString() + " - " + QuaterFDate.Day.ToString() + "." + QuaterFDate.Month.ToString() + "." + QuaterFDate.Year.ToString() + " (" + quarter + ")");
+                sw.WriteLine("Год: " + yearDate.Year.ToString());
                 sw.Close();
 
                 MessageBox.Show("Файл записан.", "Готово");

@@ -561,7 +561,7 @@ namespace MainReportDemo.Data
                     Title = "Поступило обращений",
                     Values = new ChartValues<int> { report1, report2, report3, report4, report5, report6, report7, report8, report9, report10, report11,
                     report12, report13, report14, report15},
-                    Fill = Brushes.Gray,
+                    Fill = Brushes.CornflowerBlue,
                 },
 
                 new LineSeries
@@ -576,7 +576,7 @@ namespace MainReportDemo.Data
                     Fill = Brushes.Transparent,
                     StrokeThickness = 1,
                     LineSmoothness = 0,
-                    Stroke = Brushes.DarkBlue,
+                    Stroke = Brushes.Yellow,
                     ScalesYAt = 1
                 }
             };
@@ -592,7 +592,7 @@ namespace MainReportDemo.Data
                     Title = "Поступило обращений",
                     Values = new ChartValues<int> { last.Report1, last.Report2, last.Report3, last.Report4, last.Report5, last.Report6, last.Report7,
                         last.Report8, last.Report9, last.Report10, last.Report11, last.Report12, last.Report13, last.Report14, last.Report15},
-                    Fill = Brushes.Gray,
+                    Fill = Brushes.CornflowerBlue,
                 },
 
                 new LineSeries
@@ -609,7 +609,7 @@ namespace MainReportDemo.Data
                     Fill = Brushes.Transparent,
                     StrokeThickness = 1,
                     LineSmoothness = 0,
-                    Stroke = Brushes.DarkBlue,
+                    Stroke = Brushes.Yellow,
                     ScalesYAt = 1
                 }
             };

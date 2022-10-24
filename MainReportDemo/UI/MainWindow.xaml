@@ -56,6 +56,20 @@
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
+        <Style TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="#6c3ea3"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="#492a6e"/>
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid Background="#292929" ShowGridLines="False">
         <Grid.RowDefinitions>
@@ -103,12 +117,11 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-
             <TabItem Header="Контракты" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
                         <Label Content="Доступные контракты"/>
-                        <ListView x:Name="deletedContractsListView" Height="150">
+                        <ListView x:Name="deletedContractsListView" Height="Auto" MaxHeight="100">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Название контракта" Width="400"/>
@@ -117,7 +130,7 @@
                         </ListView>
                         <Button Content="Добавить" HorizontalAlignment="Left" ToolTip="Добавить выбранные контракты в расчет" Click="Add"/>
                         <Label Content="Контракты для расчета"/>
-                        <ListView x:Name="contractsListView" Height="150">
+                        <ListView x:Name="contractsListView" Height="Auto" MaxHeight="200">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Название контракта" Width="400"/>
@@ -128,7 +141,6 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
-
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
@@ -238,7 +250,6 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
-
             <TabItem Header="SLA" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
                 <TabItem.Content>
                     <StackPanel>
@@ -273,7 +284,9 @@
                                     <GridViewColumn Header="КИ" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding CriticalYear}"/>
+                                                <ListViewItem Background="#570902">
+                                                    <TextBlock Text="{Binding CriticalYear}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -313,7 +326,9 @@
                                     <GridViewColumn Header="5" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Five}"/>
+                                                <ListViewItem Background="#007300">
+                                                    <TextBlock Text="{Binding Five}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -321,7 +336,9 @@
                                     <GridViewColumn Header="4" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Four}"/>
+                                                <ListViewItem Background="#658a00">
+                                                    <TextBlock Text="{Binding Four}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -329,7 +346,9 @@
                                     <GridViewColumn Header="3" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Three}"/>
+                                                <ListViewItem Background="#a17102">
+                                                    <TextBlock Text="{Binding Three}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -337,7 +356,9 @@
                                     <GridViewColumn Header="2" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Two}"/>
+                                                <ListViewItem Background="#b51102">
+                                                    <TextBlock Text="{Binding Two}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -345,7 +366,9 @@
                                     <GridViewColumn Header="-" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding NoMark}"/>
+                                                <ListViewItem Background="Gray">
+                                                    <TextBlock Text="{Binding NoMark}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -353,7 +376,9 @@
                                     <GridViewColumn Header="↺" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Restart}"/>
+                                                <ListViewItem Background="#570902">
+                                                    <TextBlock Text="{Binding Restart}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -364,36 +389,6 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
-
-            <TabItem Header="Диаграмма" Background="#292929" BorderThickness="0" Foreground="White" FontSize="18" Height="35" Width="200">
-                <TabItem.Content>
-                    <StackPanel>
-                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Margin="5,5,5,5" Height="400">
-                            <lvc:CartesianChart.AxisY>
-                                <lvc:Axis Foreground="White">
-                                    <lvc:Axis.Sections>
-                                        <lvc:AxisSection/>
-                                    </lvc:Axis.Sections>
-                                </lvc:Axis>
-                                <lvc:Axis Foreground="Yellow" Position="RightTop">
-                                    <lvc:Axis.Sections>
-                                        <lvc:AxisSection/>
-                                    </lvc:Axis.Sections>
-                                </lvc:Axis>
-                            </lvc:CartesianChart.AxisY>
-
-                            <lvc:CartesianChart.AxisX>
-                                <lvc:Axis>
-                                    <lvc:Axis.Sections>
-                                        <lvc:AxisSection/>
-                                    </lvc:Axis.Sections>
-                                </lvc:Axis>
-                            </lvc:CartesianChart.AxisX>
-                        </lvc:CartesianChart>
-                    </StackPanel>
-                </TabItem.Content>
-            </TabItem>
-
             <TabItem Header="КИ" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
                 <TabItem.Content>
                     <StackPanel>
@@ -445,6 +440,34 @@
                             </ListView.View>
                         </ListView>
                         <Button Content="Добавить" ToolTip="Добавить выделенные кризисные инциденты в расчет" Click="Reload"/>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Диаграмма" Background="#292929" BorderThickness="0" Foreground="White" FontSize="18" Height="35" Width="200">
+                <TabItem.Content>
+                    <StackPanel>
+                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Margin="5,5,5,5" Height="400">
+                            <lvc:CartesianChart.AxisY>
+                                <lvc:Axis Foreground="White">
+                                    <lvc:Axis.Sections>
+                                        <lvc:AxisSection/>
+                                    </lvc:Axis.Sections>
+                                </lvc:Axis>
+                                <lvc:Axis Foreground="Yellow" Position="RightTop">
+                                    <lvc:Axis.Sections>
+                                        <lvc:AxisSection/>
+                                    </lvc:Axis.Sections>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisY>
+
+                            <lvc:CartesianChart.AxisX>
+                                <lvc:Axis>
+                                    <lvc:Axis.Sections>
+                                        <lvc:AxisSection/>
+                                    </lvc:Axis.Sections>
+                                </lvc:Axis>
+                            </lvc:CartesianChart.AxisX>
+                        </lvc:CartesianChart>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>

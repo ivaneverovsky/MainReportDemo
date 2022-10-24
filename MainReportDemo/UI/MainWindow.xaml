@@ -111,7 +111,7 @@
                         <ListView x:Name="deletedContractsListView" Height="150">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Название контракта"/>
+                                    <GridViewColumn Header="Название контракта" Width="400"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -120,7 +120,7 @@
                         <ListView x:Name="contractsListView" Height="150">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Название контракта"/>
+                                    <GridViewColumn Header="Название контракта" Width="400"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>

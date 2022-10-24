@@ -34,6 +34,10 @@ namespace MainReportDemo.Data
         {
             _crisisData.Add(ci);
         }
+        public void DropCrisis(CI ci)
+        {
+            _crisisData.Remove(ci);
+        }
 
         public void ClearLists()
         {

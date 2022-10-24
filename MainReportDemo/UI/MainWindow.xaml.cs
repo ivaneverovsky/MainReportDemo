@@ -498,6 +498,7 @@ namespace MainReportDemo
             {
                 crisisList.Remove(item);
                 crisisListView.Items.Remove(item);
+                _calc.DropCI(item);
             }
 
             foreach (CI contract in selectedCrisisList)
@@ -508,6 +509,8 @@ namespace MainReportDemo
             //refresh UI list views
             reportListView.Items.Refresh();
             slaListView.Items.Refresh();
+
+            _calc.SaveData();
 
             txtBoxFilePath.Text = "Готово. Кризисные инциденты добавлены.";
         }

@@ -707,6 +707,12 @@ namespace MainReportDemo.Data
             sla15 = 0;
         }
 
+        //delete CI if count
+        public void DropCI(CI ci)
+        {
+            _stor.DropCrisis(ci);
+        }
+
         //clear lists
         public void ClearData()
         {

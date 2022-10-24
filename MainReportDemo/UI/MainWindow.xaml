@@ -70,6 +70,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="lvc:DefaultTooltip">
+            <Setter Property="Background" Value="#201f21"/>
+        </Style>
     </Window.Resources>
     <Grid Background="#292929" ShowGridLines="False">
         <Grid.RowDefinitions>

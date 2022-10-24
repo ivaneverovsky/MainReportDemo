@@ -172,8 +172,14 @@ namespace MainReportDemo
         }
 
         //button "Вычислить", count everything
-        private async void Count(object sender, RoutedEventArgs e) 
+        private async void Count(object sender, RoutedEventArgs e)
         {
+            if (contractsListView.Items.Count == 0)
+            {
+                MessageBox.Show("Список контрактов для расчета пуст! Добавьте контракт!", "Внимание");
+                return;
+            }
+
             Cleaning();
 
             //build cds marks model
@@ -190,7 +196,7 @@ namespace MainReportDemo
             CountReports();
             BuildGraph();
             CountCrisis();
-            
+
             //save program state
             _calc.SaveData();
 
@@ -256,6 +262,12 @@ namespace MainReportDemo
         //add selected contracts to contract list and contractsListView
         private void Add(object sender, RoutedEventArgs e)
         {
+            if (deletedContractsListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Доступные контракты не выбраны!", "Внимание");
+                return;
+            }
+
             foreach (var item in deletedContractsListView.SelectedItems)
             {
                 contractsList.Add(item);
@@ -272,6 +284,12 @@ namespace MainReportDemo
         //delete selected contracts from contract list and contractListview
         private void Delete(object sender, RoutedEventArgs e)
         {
+            if (contractsListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Контракты для исключения из расчета не выбраны!", "Внимание");
+                return;
+            }
+
             foreach (var item in contractsListView.SelectedItems)
             {
                 deletedContracts.Add(item);
@@ -355,7 +373,7 @@ namespace MainReportDemo
         {
             //contract list
             contractsRequest = @"SELECT DISTINCT ServiceContractTitle FROM dbo.RequestsFull";
-            
+
             //contract details
             monthRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + MonthDate + "'";
             quarterRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + QuarterSDate + "' AND CAST([CreateDate] AS date) <= '" + QuaterFDate + "'";
@@ -455,10 +473,10 @@ namespace MainReportDemo
                     "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
                     "NoMark;Restart;");
                 foreach (var item in _calc.CollectReports())
-                    sw.WriteLine(item.Color + ";" + item.ColorYear + ";" + item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";" 
-                        + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";" 
-                        + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";" 
-                        + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";" 
+                    sw.WriteLine(item.Color + ";" + item.ColorYear + ";" + item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
+                        + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";"
+                        + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";"
+                        + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"
                         + item.NoMark + ";" + item.Restart + ";");
 
                 sw.WriteLine("\n\nДанные за текущий месяц: " + MonthDate.Month.ToString() + "." + MonthDate.Year.ToString());
@@ -466,7 +484,7 @@ namespace MainReportDemo
                 sw.WriteLine("Год: " + yearDate.Year.ToString());
                 sw.Close();
 
-                MessageBox.Show("Файл записан.", "Готово");
+                MessageBox.Show("Файл записан!", "Готово");
             }
             catch (Exception ex)
             {
@@ -485,12 +503,23 @@ namespace MainReportDemo
             if (ofd.ShowDialog() == true)
                 txtBoxFilePath.Text = ofd.FileName;
 
+            if (ofd.FileName == "")
+            {
+                MessageBox.Show("Файл ЦДС не выбран!", "Внимание");
+                return;
+            }
             fileRows = _fl.LoadFile(ofd);
         }
 
         //reload crisis incidents
         private void Reload(object sender, RoutedEventArgs e)
         {
+            if (crisisListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Кризисные инциденты не выбраны!", "Внимание");
+                return;
+            }
+
             foreach (CI item in crisisListView.SelectedItems)
                 selectedCrisisList.Add(item);
 

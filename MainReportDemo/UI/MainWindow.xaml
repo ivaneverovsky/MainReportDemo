@@ -42,6 +42,7 @@
             <Setter Property="Margin" Value="20,0,0,0"/>
         </Style>
         <Style TargetType="ListView">
+            <Setter Property="Width" Value="{Binding ElementName=MainReportTab}"/>
             <Setter Property="Background" Value="#201f21"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -74,7 +75,7 @@
             <Setter Property="Background" Value="#201f21"/>
         </Style>
     </Window.Resources>
-    <Grid Background="#292929" ShowGridLines="False">
+    <Grid Background="#292929" ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="95*"/>
             <RowDefinition Height="39*"/>
@@ -167,7 +168,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="Кол-во обращений">
+                                    <GridViewColumn Header="Кол-во обращений (месяц)">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ReportAmount}"/>
@@ -183,10 +184,15 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="SLA %">
+                                    <GridViewColumn Header="SLA">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding SLAMonth}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SLAMonth}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -276,7 +282,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="Кол-во обращений" Width="Auto">
+                                    <GridViewColumn Header="Кол-во обращений (год)" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ReportAmountYear}"/>
@@ -294,26 +300,41 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="SLA месяц %" Width="Auto">
+                                    <GridViewColumn Header="SLA месяц" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding SLAMonth}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SLAMonth}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="SLA квартал %" Width="Auto">
+                                    <GridViewColumn Header="SLA квартал" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding SLAQuarter}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SLAQuarter}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="SLA год %" Width="Auto">
+                                    <GridViewColumn Header="SLA год" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding SLAYear}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding SLAYear}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -330,7 +351,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#007300">
-                                                    <TextBlock Text="{Binding Five}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Five}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -340,7 +364,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#658a00">
-                                                    <TextBlock Text="{Binding Four}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Four}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -350,7 +377,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#a17102">
-                                                    <TextBlock Text="{Binding Three}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Three}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -360,7 +390,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#b51102">
-                                                    <TextBlock Text="{Binding Two}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Two}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -370,7 +403,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="Gray">
-                                                    <TextBlock Text="{Binding NoMark}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding NoMark}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -380,7 +416,10 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#570902">
-                                                    <TextBlock Text="{Binding Restart}"/>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Restart}"/>
+                                                        <TextBlock Text=" %"/>
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -449,7 +488,7 @@
             <TabItem Header="Диаграмма" Background="#292929" BorderThickness="0" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
-                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" LegendLocation="None" Margin="5,5,5,5" Height="400">
+                        <lvc:CartesianChart Name="graphSLA" DisableAnimations="True" Background="#201f21" LegendLocation="None" Height="400">
                             <lvc:CartesianChart.AxisY>
                                 <lvc:Axis Foreground="White">
                                     <lvc:Axis.Sections>

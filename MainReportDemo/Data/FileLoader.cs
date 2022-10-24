@@ -26,7 +26,7 @@ namespace MainReportDemo.Data
                     }
                 }
 
-                MessageBox.Show("Файл загружен.", "Готово");
+                MessageBox.Show("Файл загружен!", "Готово");
             }
             catch (Exception ex)
             {

@@ -449,6 +449,32 @@ namespace MainReportDemo.Data
             }
 
             slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
+
+            if (slaMonth.ToString() == "NaN" && SLABreakCounter == 0)
+                slaMonth = 100;
+
+            double sum = noMark + five + four + three + two;
+            five = Math.Round(five / sum * 100, 1);
+            four = Math.Round(four / sum * 100, 1);
+            three = Math.Round(three / sum * 100, 1);
+            two = Math.Round(two / sum * 100, 1);
+            noMark = Math.Round(noMark / sum * 100, 1);
+
+            if (five.ToString() == "NaN")
+                five = 0;
+            if (four.ToString() == "NaN")
+                four = 0;
+            if (three.ToString() == "NaN")
+                three = 0;
+            if (two.ToString() == "NaN")
+                two = 0;
+            if (noMark.ToString() == "NaN")
+                noMark = 0;
+
+            restart = Math.Round(restart / reportAmount * 100, 1);
+
+            if (restart.ToString() == "NaN")
+                restart = 0;
         }
 
         //count quarter
@@ -468,6 +494,9 @@ namespace MainReportDemo.Data
             }
 
             slaQuarter = Math.Round((1 - SLABreakCounterQuarter / (double)reportQuarter) * 100, 2);
+
+            if (slaQuarter.ToString() == "NaN" && SLABreakCounterQuarter == 0)
+                slaQuarter = 100;
         }
 
         //count year
@@ -493,6 +522,9 @@ namespace MainReportDemo.Data
             }
 
             slaYear = Math.Round((1 - SLABreakCounterYear / (double)reportAmountYear) * 100, 2);
+
+            if (slaYear.ToString() == "NaN" && SLABreakCounterYear == 0)
+                slaYear = 100;
         }
 
         //count crisis

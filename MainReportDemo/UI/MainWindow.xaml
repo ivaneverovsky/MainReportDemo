@@ -6,8 +6,12 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         ResizeMode="CanResize"
-        Height="730" Width="1300" WindowStartupLocation="CenterScreen">
-
+        WindowState="Maximized"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen" Width="1300" Height="800">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32"/>
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
@@ -42,7 +46,7 @@
             <Setter Property="Margin" Value="20,0,0,0"/>
         </Style>
         <Style TargetType="ListView">
-            <Setter Property="Width" Value="{Binding ElementName=MainReportTab}"/>
+            <Setter Property="MaxWidth" Value="{Binding ElementName=MainReportTab}"/>
             <Setter Property="Background" Value="#201f21"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -75,7 +79,7 @@
             <Setter Property="Background" Value="#201f21"/>
         </Style>
     </Window.Resources>
-    <Grid Background="#292929" ShowGridLines="True">
+    <Grid Background="#292929" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="95*"/>
             <RowDefinition Height="39*"/>
@@ -125,7 +129,7 @@
                 <TabItem.Content>
                     <StackPanel>
                         <Label Content="Доступные контракты"/>
-                        <ListView x:Name="deletedContractsListView" Height="Auto" MaxHeight="100">
+                        <ListView x:Name="deletedContractsListView" Height="Auto" MaxHeight="400">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Название контракта" Width="400"/>
@@ -134,7 +138,7 @@
                         </ListView>
                         <Button Content="Добавить" HorizontalAlignment="Left" ToolTip="Добавить выбранные контракты в расчет" Click="Add"/>
                         <Label Content="Контракты для расчета"/>
-                        <ListView x:Name="contractsListView" Height="Auto" MaxHeight="200">
+                        <ListView x:Name="contractsListView" Height="Auto" MaxHeight="550">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Название контракта" Width="400"/>
@@ -148,7 +152,7 @@
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="reportListView">
+                        <ListView x:Name="reportListView" MaxHeight="600">
                             <ListView.View>
                                 <GridView>
 
@@ -179,7 +183,9 @@
                                     <GridViewColumn Header="КИ">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Critical}"/>
+                                                <ListViewItem Background="#570902">
+                                                    <TextBlock Text="{Binding Critical}"/>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -190,7 +196,12 @@
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding SLAMonth}"/>
+                                                        <TextBlock Text=" % / "/>
+                                                        <TextBlock Text="{Binding TargetSLA}"/>
                                                         <TextBlock Text=" %"/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
                                                     </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
@@ -200,7 +211,14 @@
                                     <GridViewColumn Header="ЗнД">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding RequestsAccess}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding RequestsAccess}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding AccessPerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -208,7 +226,14 @@
                                     <GridViewColumn Header="ЗнИ">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding RequestsChange}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding RequestsChange}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding ChangePerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -216,7 +241,14 @@
                                     <GridViewColumn Header="ЗнО">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding RequestsUsage}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding RequestsUsage}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding UsagePerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -224,7 +256,14 @@
                                     <GridViewColumn Header="Инц.">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Incidents}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding Incidents}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding IncidentsPerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -232,7 +271,14 @@
                                     <GridViewColumn Header="Инц. ИБ">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding IncidentsIS}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding IncidentsIS}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding IncidentsISPerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -240,7 +286,14 @@
                                     <GridViewColumn Header="Консультация">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding RequestsAdvice}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding RequestsAdvice}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding AdvicePerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -248,7 +301,14 @@
                                     <GridViewColumn Header="ППР">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding PlanedWork}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding PlanedWork}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding PlannedWorkPerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -262,7 +322,7 @@
             <TabItem Header="SLA" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="slaListView">
+                        <ListView x:Name="slaListView" MaxHeight="600">
                             <ListView.View>
                                 <GridView>
 
@@ -306,7 +366,12 @@
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding SLAMonth}"/>
+                                                        <TextBlock Text=" % / "/>
+                                                        <TextBlock Text="{Binding TargetSLA}"/>
                                                         <TextBlock Text=" %"/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                                        <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
                                                     </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
@@ -319,7 +384,12 @@
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding SLAQuarter}"/>
+                                                        <TextBlock Text=" % / "/>
+                                                        <TextBlock Text="{Binding TargetSLA}"/>
                                                         <TextBlock Text=" %"/>
+                                                        <TextBlock Foreground="{Binding SLAQuarterState}" Text=" ("/>
+                                                        <TextBlock Foreground="{Binding SLAQuarterState}" Text="{Binding SLAQuarterValue}"/>
+                                                        <TextBlock Foreground="{Binding SLAQuarterState}" Text=" %)"/>
                                                     </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
@@ -332,7 +402,12 @@
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
                                                         <TextBlock Text="{Binding SLAYear}"/>
+                                                        <TextBlock Text=" % / "/>
+                                                        <TextBlock Text="{Binding TargetSLA}"/>
                                                         <TextBlock Text=" %"/>
+                                                        <TextBlock Foreground="{Binding SLAYearState}" Text=" ("/>
+                                                        <TextBlock Foreground="{Binding SLAYearState}" Text="{Binding SLAYearValue}"/>
+                                                        <TextBlock Foreground="{Binding SLAYearState}" Text=" %)"/>
                                                     </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
@@ -342,7 +417,14 @@
                                     <GridViewColumn Header="ППР" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding PlanedWork}"/>
+                                                <ListViewItem>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding PlanedWork}"/>
+                                                        <TextBlock Text=" ("/>
+                                                        <TextBlock Text="{Binding PlannedWorkPerc}"/>
+                                                        <TextBlock Text=" %)"/>
+                                                    </StackPanel>
+                                                </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

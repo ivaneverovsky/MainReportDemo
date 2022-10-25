@@ -476,7 +476,7 @@ namespace MainReportDemo
                     sw.WriteLine(item.Color + ";" + item.ColorYear + ";" + item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
                         + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";"
                         + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";"
-                        + item.RequestsAdvice + ";" + item.PlanedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"
+                        + item.RequestsAdvice + ";" + item.PlannedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"
                         + item.NoMark + ";" + item.Restart + ";");
 
                 sw.WriteLine("\n\nДанные за текущий месяц: " + MonthDate.Month.ToString() + "." + MonthDate.Year.ToString());

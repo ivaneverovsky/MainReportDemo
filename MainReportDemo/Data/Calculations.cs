@@ -26,21 +26,35 @@ namespace MainReportDemo.Data
         private int reportQuarter;
         private int reportAmountYear;
 
+        private double targetSla;
         private double slaMonth;
+        private string slaState;
+        private double slaValue;
         private double slaQuarter;
+        private string slaQuarterState;
+        private double slaQuarterValue;
         private double slaYear;
+        private string slaYearState;
+        private double slaYearValue;
         private int SLABreakCounter;
         private int SLABreakCounterQuarter;
         private int SLABreakCounterYear;
 
         private int requestsAccess;
+        private double accessPerc;
         private int requestsChange;
+        private double changePerc;
         private int requestsUsage;
+        private double usagePerc;
         private int requestsAdvice;
-        private int planedWork;
+        private double advicePerc;
+        private int plannedWork;
+        private double plannedWorkPerc;
 
         private int incidents;
+        private double incidentsPerc;
         private int incidentsIS;
+        private double incidentsISPerc;
 
         private double five;
         private double four;
@@ -111,8 +125,7 @@ namespace MainReportDemo.Data
                 MessageBox.Show(ae.Message, "Ошибка");
             }
 
-            var report = new Report(color, colorYear, contract, reportAmount, reportAmountYear, critical, criticalYear, slaMonth, slaQuarter, slaYear, requestsAccess,
-                requestsChange, requestsUsage, incidents, incidentsIS, requestsAdvice, planedWork, five, four, three, two, noMark, restart);
+            var report = new Report(color, colorYear, contract, reportAmount, reportAmountYear, critical, criticalYear, targetSla, slaMonth, slaState, slaValue, slaQuarter, slaQuarterState, slaQuarterValue, slaYear, slaYearState, slaYearValue, requestsAccess, accessPerc, requestsChange, changePerc, requestsUsage, usagePerc, incidents, incidentsPerc, incidentsIS, incidentsISPerc, requestsAdvice, advicePerc, plannedWork, plannedWorkPerc, five, four, three, two, noMark, restart);
 
             _stor.AddReport(report);
         }
@@ -415,7 +428,7 @@ namespace MainReportDemo.Data
                     else if (value[3].ToString() == "Инцидент")
                         incidents++;
                     else if (value[3].ToString() == "Регламентная работа")
-                        planedWork++;
+                        plannedWork++;
                     else if (value[3].ToString() == "Инцидент ИБ")
                         incidentsIS++;
                     else if (value[3].ToString() == "Запрос на изменение")
@@ -448,33 +461,64 @@ namespace MainReportDemo.Data
                 }
             }
 
+            targetSla = 90.00;
             slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
 
             if (slaMonth.ToString() == "NaN" && SLABreakCounter == 0)
                 slaMonth = 100;
 
-            double sum = noMark + five + four + three + two;
-            five = Math.Round(five / sum * 100, 1);
-            four = Math.Round(four / sum * 100, 1);
-            three = Math.Round(three / sum * 100, 1);
-            two = Math.Round(two / sum * 100, 1);
-            noMark = Math.Round(noMark / sum * 100, 1);
+            slaValue = Math.Round(100 - slaMonth, 2);
 
-            if (five.ToString() == "NaN")
+            if (slaMonth <= 100 && slaMonth >= 97.12)
+                slaState = "#007300";
+            else if (slaMonth < 97.12 && slaMonth >= targetSla)
+                slaState = "#a17102";
+            else
+                slaState = "#b51102";
+
+            double sum = noMark + five + four + three + two;
+            if (sum.ToString() == "NaN")
+            {
                 five = 0;
-            if (four.ToString() == "NaN")
                 four = 0;
-            if (three.ToString() == "NaN")
                 three = 0;
-            if (two.ToString() == "NaN")
                 two = 0;
-            if (noMark.ToString() == "NaN")
                 noMark = 0;
+            }
+            else
+            {
+                five = Math.Round(five / sum * 100, 1);
+                four = Math.Round(four / sum * 100, 1);
+                three = Math.Round(three / sum * 100, 1);
+                two = Math.Round(two / sum * 100, 1);
+                noMark = Math.Round(noMark / sum * 100, 1);
+            }
 
             restart = Math.Round(restart / reportAmount * 100, 1);
-
             if (restart.ToString() == "NaN")
                 restart = 0;
+
+            double sumRequests = requestsAccess + requestsChange + requestsUsage + requestsAdvice + plannedWork + incidents + incidentsIS;
+            if (sumRequests.ToString() == "NaN")
+            {
+                accessPerc = 0;
+                changePerc = 0;
+                usagePerc = 0;
+                advicePerc = 0;
+                plannedWorkPerc = 0;
+                incidentsPerc = 0;
+                incidentsISPerc = 0;
+            }
+            else
+            {
+                accessPerc = Math.Round(requestsAccess / sumRequests * 100, 1);
+                changePerc = Math.Round(requestsChange / sumRequests * 100, 1);
+                usagePerc = Math.Round(requestsUsage / sumRequests * 100, 1);
+                advicePerc = Math.Round(requestsAdvice / sumRequests * 100, 1);
+                plannedWorkPerc = Math.Round(plannedWork / sumRequests * 100, 1);
+                incidentsPerc = Math.Round(incidents / sumRequests * 100, 1);
+                incidentsISPerc = Math.Round(incidentsIS / sumRequests * 100, 1);
+            }
         }
 
         //count quarter
@@ -497,6 +541,15 @@ namespace MainReportDemo.Data
 
             if (slaQuarter.ToString() == "NaN" && SLABreakCounterQuarter == 0)
                 slaQuarter = 100;
+
+            slaQuarterValue = Math.Round(100 - slaQuarter, 2);
+
+            if (slaQuarter <= 100 && slaQuarter >= 97.12)
+                slaQuarterState = "#007300";
+            else if (slaQuarter < 97.12 && slaQuarter >= targetSla)
+                slaQuarterState = "#a17102";
+            else
+                slaQuarterState = "#b51102";
         }
 
         //count year
@@ -525,6 +578,15 @@ namespace MainReportDemo.Data
 
             if (slaYear.ToString() == "NaN" && SLABreakCounterYear == 0)
                 slaYear = 100;
+
+            slaYearValue = Math.Round(100 - slaYear, 2);
+
+            if (slaYear <= 100 && slaYear >= 97.12)
+                slaYearState = "#007300";
+            else if (slaYear < 97.12 && slaYear >= targetSla)
+                slaYearState = "#a17102";
+            else
+                slaYearState = "#b51102";
         }
 
         //count crisis
@@ -538,9 +600,9 @@ namespace MainReportDemo.Data
                     {
                         _stor.Reports[i].CriticalYear++;
                         if (_stor.Reports[i].CriticalYear <= 1)
-                            _stor.Reports[i].ColorYear = "Yellow";
+                            _stor.Reports[i].ColorYear = "#a17102";
                         else if (_stor.Reports[i].CriticalYear >= 2)
-                            _stor.Reports[i].ColorYear = "Red";
+                            _stor.Reports[i].ColorYear = "#b51102";
 
                         break;
                     }
@@ -554,9 +616,9 @@ namespace MainReportDemo.Data
                     {
                         _stor.Reports[i].Critical++;
                         if (_stor.Reports[i].Critical <= 1)
-                            _stor.Reports[i].Color = "Yellow";
+                            _stor.Reports[i].Color = "#a17102";
                         else if (_stor.Reports[i].Critical >= 2)
-                            _stor.Reports[i].Color = "Red";
+                            _stor.Reports[i].Color = "#b51102";
 
                         break;
                     }
@@ -668,8 +730,8 @@ namespace MainReportDemo.Data
         //reset contract counters
         private void ContractResetValues()
         {
-            color = "Green";
-            colorYear = "Green";
+            color = "#007300";
+            colorYear = "#007300";
 
             critical = 0;
             criticalYear = 0;
@@ -678,21 +740,35 @@ namespace MainReportDemo.Data
             reportQuarter = 0;
             reportAmountYear = 0;
 
+            targetSla = 0;
             slaMonth = 0;
+            slaState = "#007300";
+            slaValue = 0;
             slaQuarter = 0;
+            slaQuarterState = "#007300";
+            slaQuarterValue = 0;
             slaYear = 0;
+            slaYearState = "#007300";
+            slaYearValue = 0;
             SLABreakCounter = 0;
             SLABreakCounterQuarter = 0;
             SLABreakCounterYear = 0;
 
             requestsAccess = 0;
+            accessPerc = 0;
             requestsChange = 0;
+            changePerc = 0;
             requestsUsage = 0;
+            usagePerc = 0;
             requestsAdvice = 0;
-            planedWork = 0;
+            advicePerc = 0;
+            plannedWork = 0;
+            plannedWorkPerc = 0;
 
             incidents = 0;
+            incidentsPerc = 0;
             incidentsIS = 0;
+            incidentsISPerc = 0;
 
             five = 0;
             four = 0;

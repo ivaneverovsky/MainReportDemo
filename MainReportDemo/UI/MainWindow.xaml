@@ -62,16 +62,13 @@
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
         <Style TargetType="ListViewItem">
+            <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Background" Value="#6c3ea3"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Background" Value="#492a6e"/>
-                    <Setter Property="HorizontalAlignment" Value="Left"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

@@ -477,7 +477,7 @@ namespace MainReportDemo.Data
                 slaState = "#b51102";
 
             double sum = noMark + five + four + three + two;
-            if (sum.ToString() == "NaN")
+            if (sum == 0)
             {
                 five = 0;
                 four = 0;
@@ -499,7 +499,7 @@ namespace MainReportDemo.Data
                 restart = 0;
 
             double sumRequests = requestsAccess + requestsChange + requestsUsage + requestsAdvice + plannedWork + incidents + incidentsIS;
-            if (sumRequests.ToString() == "NaN")
+            if (sumRequests == 0)
             {
                 accessPerc = 0;
                 changePerc = 0;

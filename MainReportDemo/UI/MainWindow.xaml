@@ -180,7 +180,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="КИ">
+                                    <GridViewColumn Header="КИ (месяц)">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#570902">
@@ -303,7 +303,7 @@
                                             <DataTemplate>
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding PlanedWork}"/>
+                                                        <TextBlock Text="{Binding PlannedWork}"/>
                                                         <TextBlock Text=" ("/>
                                                         <TextBlock Text="{Binding PlannedWorkPerc}"/>
                                                         <TextBlock Text=" %)"/>
@@ -350,7 +350,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Header="КИ" Width="Auto">
+                                    <GridViewColumn Header="КИ (год)" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem Background="#570902">
@@ -419,7 +419,7 @@
                                             <DataTemplate>
                                                 <ListViewItem>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding PlanedWork}"/>
+                                                        <TextBlock Text="{Binding PlannedWork}"/>
                                                         <TextBlock Text=" ("/>
                                                         <TextBlock Text="{Binding PlannedWorkPerc}"/>
                                                         <TextBlock Text=" %)"/>

@@ -146,6 +146,28 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
+            <TabItem Header="Объединить контракты" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
+                <TabItem.Content>
+                    <StackPanel>
+                        <Label Content="Контракты доступные для объединения"/>
+                        <ListView x:Name="unitedListView" MaxHeight="600">
+                            <ListView.View>
+                                <GridView>
+                                    
+                                    <GridViewColumn Header="Контракты">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>

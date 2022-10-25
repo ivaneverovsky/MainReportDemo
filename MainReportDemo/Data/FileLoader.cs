@@ -13,25 +13,29 @@ namespace MainReportDemo.Data
         {
             Dictionary<object, object> fileData = new Dictionary<object, object>();
 
-            try
+            using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
-                    using (var reader = ExcelReaderFactory.CreateReader(stream))
-                    {
-                        var result = reader.AsDataSet(); //get data from file
+                    var result = reader.AsDataSet(); //get data from file
 
-                        for (int i = 1; i < result.Tables[0].Rows.Count; i++)
+                    for (int i = 1; i < result.Tables[0].Rows.Count; i++)
+                    {
+                        try
+                        {
                             fileData.Add(result.Tables[0].Rows[i].ItemArray[1], result.Tables[0].Rows[i].ItemArray[40]);
+                        }
+                        catch (Exception ex)
+                        {
+                            int err_string = i + 1;
+                            MessageBox.Show(ex.Message + "\nСтрока " + err_string + " будет пропущена.", "Ошибка");
+                            continue;
+                        }
                     }
                 }
+            }
 
-                MessageBox.Show("Файл загружен!", "Готово");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка");
-            }
+            MessageBox.Show("Файл загружен!", "Готово");
 
             return fileData;
         }

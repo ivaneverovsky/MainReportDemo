@@ -182,15 +182,18 @@ namespace MainReportDemo
 
             Cleaning();
 
-            //build cds marks model
-            _calc.FileBuilder(fileRows);
-
             //get contracts and graph info
             await GetContractsData();
             await GetGraphData();
 
-            //check values with file and rewrite month list from db
-            dbDataMonth = _calc.dbCheck(dbDataMonth);
+            //build cds marks model
+            if (fileRows.Count != 0)
+            {
+                _calc.FileBuilder(fileRows);
+
+                //check values with file and rewrite month list from db
+                dbDataMonth = _calc.dbCheck(dbDataMonth);
+            }
 
             //count contracts, graph and crisis incidents
             CountReports();
@@ -200,7 +203,7 @@ namespace MainReportDemo
             //save program state
             _calc.SaveData();
 
-            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавляются вручную.";
+            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавляются вручную (при наличии).";
         }
 
         //count reports
@@ -508,6 +511,7 @@ namespace MainReportDemo
                 MessageBox.Show("Файл ЦДС не выбран!", "Внимание");
                 return;
             }
+
             fileRows = _fl.LoadFile(ofd);
         }
 

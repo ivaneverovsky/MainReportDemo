@@ -626,7 +626,7 @@ namespace MainReportDemo.Data
             }
         }
 
-        //check db values for dbList
+        //check db values (Marks) for dbList
         public List<object> dbCheck(List<object> list)
         {
             for (int i = 0; i < list.Count; i++)

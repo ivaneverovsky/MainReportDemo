@@ -8,7 +8,7 @@ namespace MainReportDemo.UIModels
         public string ReportDateMonth { get { return ReturnMonth(); } }
         public string ReportDateYear { get { return DateTime.Now.Year.ToString() + " года"; } }
 
-        private static List<string> MonthList = new List<string>() {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", 
+        private static List<string> MonthList = new List<string>() {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
             "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
 
         private string ReturnMonth()

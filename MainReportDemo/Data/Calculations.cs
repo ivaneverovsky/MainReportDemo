@@ -1,13 +1,13 @@
-﻿using LiveCharts.Wpf;
-using LiveCharts;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 
 namespace MainReportDemo.Data
 {
@@ -184,7 +184,7 @@ namespace MainReportDemo.Data
                     _stor.AddMark(mark);
                 }
             }
-        }        
+        }
 
         //count month 1
         private void rs1(List<object> l, string contractName)
@@ -693,11 +693,11 @@ namespace MainReportDemo.Data
                 {
                     Title = "% обращений с нарушенным SLA",
                     Values = new ChartValues<double> { Math.Round(last.SLA1 / (double)last.Report1 * 100, 2), Math.Round(last.SLA2 / (double)last.Report2 * 100, 2),
-                        Math.Round(last.SLA3 / (double)last.Report3 * 100, 2), Math.Round(last.SLA4 / (double)last.Report4 * 100, 2), 
-                        Math.Round(last.SLA5 / (double)last.Report5 * 100, 2), Math.Round(last.SLA6 / (double)last.Report6 * 100, 2), 
+                        Math.Round(last.SLA3 / (double)last.Report3 * 100, 2), Math.Round(last.SLA4 / (double)last.Report4 * 100, 2),
+                        Math.Round(last.SLA5 / (double)last.Report5 * 100, 2), Math.Round(last.SLA6 / (double)last.Report6 * 100, 2),
                         Math.Round(last.SLA7 / (double)last.Report7 * 100, 2), Math.Round(last.SLA8 / (double)last.Report8 * 100, 2),
-                        Math.Round(last.SLA9 / (double)last.Report9 * 100, 2), Math.Round(last.SLA10 / (double)last.Report10 * 100, 2), 
-                        Math.Round(last.SLA11 / (double)last.Report11 * 100, 2), Math.Round(last.SLA12 / (double)last.Report12 * 100, 2), 
+                        Math.Round(last.SLA9 / (double)last.Report9 * 100, 2), Math.Round(last.SLA10 / (double)last.Report10 * 100, 2),
+                        Math.Round(last.SLA11 / (double)last.Report11 * 100, 2), Math.Round(last.SLA12 / (double)last.Report12 * 100, 2),
                         Math.Round(last.SLA13 / (double)last.Report13 * 100, 2), Math.Round(last.SLA14 / (double)last.Report14 * 100, 2),
                         Math.Round(last.SLA15 / (double)last.Report15 * 100, 2)},
                     Fill = Brushes.Transparent,

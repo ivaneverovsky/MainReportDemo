@@ -51,7 +51,7 @@ namespace MainReportDemo.Data
             {
                 MessageBox.Show(ex.Message, "Ошибка");
             }
-            
+
             command.Dispose();
 
             return dbData;

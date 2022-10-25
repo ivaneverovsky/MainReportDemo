@@ -472,11 +472,11 @@ namespace MainReportDemo
             try
             {
                 StreamWriter sw = new StreamWriter("result.csv", false, Encoding.Default);
-                sw.WriteLine("Color;ColorYear;ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
+                sw.WriteLine("ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
                     "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
                     "NoMark;Restart;");
                 foreach (var item in _calc.CollectReports())
-                    sw.WriteLine(item.Color + ";" + item.ColorYear + ";" + item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
+                    sw.WriteLine(item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
                         + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";"
                         + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";"
                         + item.RequestsAdvice + ";" + item.PlannedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"

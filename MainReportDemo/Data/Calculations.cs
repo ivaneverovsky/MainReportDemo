@@ -3,7 +3,6 @@ using LiveCharts.Wpf;
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
@@ -236,7 +235,7 @@ namespace MainReportDemo.Data
                 new Task(() => CheckCrisis())
             };
 
-            foreach(Task task in tasks)
+            foreach (Task task in tasks)
                 task.Start();
 
             try
@@ -451,7 +450,7 @@ namespace MainReportDemo.Data
                 }
             }
         }
-        
+
         //count month
         private void MonthCounter(List<object> dbDataMonth, string contractName)
         {

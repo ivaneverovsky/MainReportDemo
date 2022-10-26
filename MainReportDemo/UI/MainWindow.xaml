@@ -55,7 +55,15 @@
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="FontFamily" Value="Calibri"/>
             <Setter Property="FontSize" Value="11"/>
-            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="IsHitTestVisible" Value="True"/>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="CornflowerBlue"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Background" Value="CornflowerBlue"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="ListViewItem">
             <Setter Property="BorderThickness" Value="0"/>
@@ -64,7 +72,7 @@
                     <Setter Property="Background" Value="CornflowerBlue"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="DeepSkyBlue"/>
+                    <Setter Property="Background" Value="#007fbf"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -198,7 +206,7 @@
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="reportListView" MaxHeight="590">
+                        <ListView x:Name="reportListView" MaxHeight="550">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Статус">
@@ -362,7 +370,7 @@
             <TabItem Header="SLA" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="slaListView" MaxHeight="590">
+                        <ListView x:Name="slaListView" MaxHeight="550">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Статус" Width="Auto">

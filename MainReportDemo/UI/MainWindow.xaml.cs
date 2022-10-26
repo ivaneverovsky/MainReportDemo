@@ -547,5 +547,51 @@ namespace MainReportDemo
 
             txtBoxFilePath.Text = "Готово. Кризисные инциденты добавлены.";
         }
+
+        //unite selected contracts
+        private void Unite(object sender, RoutedEventArgs e)
+        {
+            //checkers
+            if (reportListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Контракты для объединения не выбраны!", "Внимание");
+                return;
+            }
+            if (reportListView.SelectedItems.Count == 1)
+            {
+                MessageBox.Show("Выберите как минимум 2 контракта для объединения!", "Внимание");
+                return;
+            }
+            if (txtNewContr.Text == "")
+            {
+                MessageBox.Show("Название нового контракта не указано!", "Внимание");
+                return;
+            }
+
+            //add info to list and string
+            List<Report> newContract = new List<Report>();
+            string newContractName = txtNewContr.Text;
+            foreach (Report item in reportListView.SelectedItems)
+                newContract.Add(item);
+
+            //drop contarct from store and UI
+            foreach (var item in newContract)
+            {
+                reportListView.Items.Remove(item);
+                slaListView.Items.Remove(item);
+                _calc.DropReport(item);
+            }
+
+            //build new contract
+            Report newReport = _calc.NewContract(newContract, newContractName);
+
+            //add contract to UI list views
+            reportListView.Items.Add(newReport);
+            slaListView.Items.Add(newReport);
+
+            _calc.SaveData();
+            txtNewContr.Text = "";
+            txtBoxFilePath.Text = "Готово. Контракты объединены.";
+        }
     }
 }

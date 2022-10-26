@@ -13,6 +13,10 @@ namespace MainReportDemo.Data
         {
             _reports.Add(report);
         }
+        public void DropReport(Report report)
+        {
+            _reports.Remove(report);
+        }
 
         private List<CDS> _marks = new List<CDS>();
         public List<CDS> Marks { get { return _marks; } }

@@ -31,7 +31,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#492a6e"/>
+                                <Setter Property="Background" Value="CornflowerBlue"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -65,10 +65,10 @@
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" Value="#6c3ea3"/>
+                    <Setter Property="Background" Value="CornflowerBlue"/>
                 </Trigger>
                 <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="#492a6e"/>
+                    <Setter Property="Background" Value="DeepSkyBlue"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -76,7 +76,7 @@
             <Setter Property="Background" Value="#201f21"/>
         </Style>
     </Window.Resources>
-    <Grid Background="#292929" ShowGridLines="False">
+    <Grid Background="DimGray" ShowGridLines="False">
         <Grid.RowDefinitions>
             <RowDefinition Height="95*"/>
             <RowDefinition Height="39*"/>
@@ -96,7 +96,7 @@
         <TextBlock x:Name ="reportDateYear" FontWeight="Bold" Foreground="White" FontFamily="Calibri" FontSize="40" HorizontalAlignment="Left" Margin="172,29,0,0"
                    Text="{Binding ReportDateYear}" VerticalAlignment="Top" Grid.Column="1" />
 
-        <TabControl x:Name="MainReportTab" Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" Grid.RowSpan="3" FontFamily="Calibri" Background="#292929" BorderThickness="0" Foreground="White">
+        <TabControl x:Name="MainReportTab" Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" Grid.RowSpan="3" FontFamily="Calibri" Background="DimGray" BorderThickness="0" Foreground="White">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
                     <Setter Property="Template">
@@ -111,7 +111,7 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="#5d368a"/>
+                                        <Setter TargetName="Panel" Property="Background" Value="CornflowerBlue"/>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Panel" Property="Background" Value="Transparent"/>
@@ -146,10 +146,64 @@
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
+            <TabItem Header="КИ" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
+                <TabItem.Content>
+                    <StackPanel>
+                        <ListView x:Name="crisisListView">
+                            <ListView.View>
+                                <GridView>
+
+                                    <GridViewColumn Header="Номер заявки" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding RegNum}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Сервисный контракт" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ContractName}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Статус" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Сервис" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ServiceName}" TextWrapping="NoWrap"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                    <GridViewColumn Header="Описание" Width="Auto">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Description}" TextWrapping="NoWrap"/>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button Content="Добавить" ToolTip="Добавить выделенные кризисные инциденты в расчет" Click="Reload"/>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="reportListView" MaxHeight="600">
+                        <ListView x:Name="reportListView" MaxHeight="590">
                             <ListView.View>
                                 <GridView>
 
@@ -191,14 +245,18 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding SLAMonth}"/>
-                                                        <TextBlock Text=" % / "/>
-                                                        <TextBlock Text="{Binding TargetSLA}"/>
-                                                        <TextBlock Text=" %"/>
-                                                        <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
-                                                        <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
-                                                        <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
+                                                    <StackPanel Orientation="Vertical">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SLAMonth}"/>
+                                                            <TextBlock Text=" % / "/>
+                                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                                            <TextBlock Text=" %"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                                            <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                                            <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
+                                                        </StackPanel>
                                                     </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
@@ -313,6 +371,9 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <Label Content="Введите название нового контракта: " FontSize="12" Margin="0,30,0,0"/>
+                        <TextBox Name="txtNewContr" Width="150" HorizontalAlignment="Left" Foreground="White" Background="#201f21" Height="20" FontFamily="Calibri" BorderThickness="0" FontSize="13"/> 
+                        <Button Content="Объединить" Click="Unite" HorizontalAlignment="Left" ToolTip="Объединить выделенные контракты"/>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>
@@ -431,7 +492,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="#007300">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Five}"/>
+                                                        <TextBlock Text="{Binding FivePerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -444,7 +505,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="#658a00">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Four}"/>
+                                                        <TextBlock Text="{Binding FourPerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -457,7 +518,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="#a17102">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Three}"/>
+                                                        <TextBlock Text="{Binding ThreePerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -470,7 +531,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="#b51102">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Two}"/>
+                                                        <TextBlock Text="{Binding TwoPerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -483,7 +544,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="Gray">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding NoMark}"/>
+                                                        <TextBlock Text="{Binding NoMarkPerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -496,7 +557,7 @@
                                             <DataTemplate>
                                                 <ListViewItem Background="#570902">
                                                     <StackPanel Orientation="Horizontal">
-                                                        <TextBlock Text="{Binding Restart}"/>
+                                                        <TextBlock Text="{Binding RestartPerc}"/>
                                                         <TextBlock Text=" %"/>
                                                     </StackPanel>
                                                 </ListViewItem>
@@ -507,60 +568,6 @@
                                 </GridView>
                             </ListView.View>
                         </ListView>
-                    </StackPanel>
-                </TabItem.Content>
-            </TabItem>
-            <TabItem Header="КИ" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
-                <TabItem.Content>
-                    <StackPanel>
-                        <ListView x:Name="crisisListView">
-                            <ListView.View>
-                                <GridView>
-
-                                    <GridViewColumn Header="Номер заявки" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding RegNum}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Header="Сервисный контракт" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ContractName}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Header="Статус" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Status}"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Header="Сервис" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding ServiceName}" TextWrapping="NoWrap"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                    <GridViewColumn Header="Описание" Width="Auto">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}" TextWrapping="NoWrap"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <Button Content="Добавить" ToolTip="Добавить выделенные кризисные инциденты в расчет" Click="Reload"/>
                     </StackPanel>
                 </TabItem.Content>
             </TabItem>

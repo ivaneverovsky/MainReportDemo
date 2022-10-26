@@ -3,6 +3,7 @@ using LiveCharts.Wpf;
 using MainReportDemo.UIModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
@@ -56,12 +57,19 @@ namespace MainReportDemo.Data
         private int incidentsIS;
         private double incidentsISPerc;
 
-        private double five;
-        private double four;
-        private double three;
-        private double two;
-        private double noMark;
-        private double restart;
+        private int five;
+        private int four;
+        private int three;
+        private int two;
+        private int noMark;
+        private int restart;
+
+        private double fivePerc;
+        private double fourPerc;
+        private double threePerc;
+        private double twoPerc;
+        private double noMarkPerc;
+        private double restartPerc;
 
         //graph fields
         public SeriesCollection SeriesCollection { get; set; }
@@ -125,7 +133,9 @@ namespace MainReportDemo.Data
                 MessageBox.Show(ae.Message, "Ошибка");
             }
 
-            var report = new Report(color, colorYear, contract, reportAmount, reportAmountYear, critical, criticalYear, targetSla, slaMonth, slaState, slaValue, slaQuarter, slaQuarterState, slaQuarterValue, slaYear, slaYearState, slaYearValue, requestsAccess, accessPerc, requestsChange, changePerc, requestsUsage, usagePerc, incidents, incidentsPerc, incidentsIS, incidentsISPerc, requestsAdvice, advicePerc, plannedWork, plannedWorkPerc, five, four, three, two, noMark, restart);
+            CountSLA();
+
+            var report = new Report(color, colorYear, contract, reportAmount, reportQuarter, reportAmountYear, critical, criticalYear, targetSla, slaMonth, slaState, slaValue, slaQuarter, slaQuarterState, slaQuarterValue, slaYear, slaYearState, slaYearValue, SLABreakCounter, SLABreakCounterQuarter, SLABreakCounterYear, requestsAccess, accessPerc, requestsChange, changePerc, requestsUsage, usagePerc, incidents, incidentsPerc, incidentsIS, incidentsISPerc, requestsAdvice, advicePerc, plannedWork, plannedWorkPerc, five, fivePerc, four, fourPerc, three, threePerc, two, twoPerc, noMark, noMarkPerc, restart, restartPerc);
 
             _stor.AddReport(report);
         }
@@ -135,7 +145,6 @@ namespace MainReportDemo.Data
             List<object> l8, List<object> l9, List<object> l10, List<object> l11, List<object> l12, List<object> l13, List<object> l14, List<object> l15,
             string contract)
         {
-
             Task[] tasks = new Task[15]
             {
                 new Task(() => rs1(l1, contract)),
@@ -186,7 +195,67 @@ namespace MainReportDemo.Data
             }
         }
 
-        //count month 1
+        //build new contract
+        public Report NewContract(List<Report> reports, string newContractName)
+        {
+            ContractResetValues();
+            for (int i = 0; i < reports.Count; i++)
+            {
+                reportAmount += reports[i].ReportAmount;
+                reportQuarter += reports[i].SLABreakCounterQuarter;
+                reportAmountYear += reports[i].ReportAmountYear;
+                critical += reports[i].Critical;
+                criticalYear += reports[i].CriticalYear;
+                targetSla = reports[i].TargetSLA;
+                requestsAccess += reports[i].RequestsAccess;
+                requestsChange += reports[i].RequestsChange;
+                requestsUsage += reports[i].RequestsUsage;
+                incidents += reports[i].Incidents;
+                incidentsIS += reports[i].IncidentsIS;
+                requestsAdvice += reports[i].RequestsAdvice;
+                plannedWork += reports[i].PlannedWork;
+                five += reports[i].Five;
+                four += reports[i].Four;
+                three += reports[i].Three;
+                two += reports[i].Two;
+                noMark += reports[i].NoMark;
+                restart += reports[i].Restart;
+                SLABreakCounter += reports[i].SLABreakCounter;
+                SLABreakCounterQuarter += reports[i].SLABreakCounterQuarter;
+                SLABreakCounterYear += reports[i].SLABreakCounterYear;
+            }
+
+            CountStats();
+            CountSLA();
+            CheckCrisis();
+
+            Task[] tasks = new Task[3]
+            {
+                new Task(() => CountStats()),
+                new Task(() => CountSLA()),
+                new Task(() => CheckCrisis())
+            };
+
+            foreach(Task task in tasks)
+                task.Start();
+
+            try
+            {
+                Task.WaitAll(tasks);
+            }
+            catch (AggregateException ae)
+            {
+                MessageBox.Show(ae.Message, "Ошибка");
+            }
+
+            var report = new Report(color, colorYear, newContractName, reportAmount, reportQuarter, reportAmountYear, critical, criticalYear, targetSla, slaMonth, slaState, slaValue, slaQuarter, slaQuarterState, slaQuarterValue, slaYear, slaYearState, slaYearValue, SLABreakCounter, SLABreakCounterQuarter, SLABreakCounterYear, requestsAccess, accessPerc, requestsChange, changePerc, requestsUsage, usagePerc, incidents, incidentsPerc, incidentsIS, incidentsISPerc, requestsAdvice, advicePerc, plannedWork, plannedWorkPerc, five, fivePerc, four, fourPerc, three, threePerc, two, twoPerc, noMark, noMarkPerc, restart, restartPerc);
+
+            _stor.AddReport(report);
+
+            return report;
+        }
+
+        //count months (1-15)
         private void rs1(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -200,8 +269,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 2
         private void rs2(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -215,8 +282,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 3
         private void rs3(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -230,8 +295,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 4
         private void rs4(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -245,8 +308,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 5
         private void rs5(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -260,8 +321,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 6
         private void rs6(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -275,8 +334,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 7
         private void rs7(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -290,8 +347,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 8
         private void rs8(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -305,8 +360,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 9
         private void rs9(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -320,8 +373,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 10
         private void rs10(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -335,8 +386,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 11
         private void rs11(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -350,8 +399,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 12
         private void rs12(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -365,8 +412,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 13
         private void rs13(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -380,8 +425,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 14
         private void rs14(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -395,8 +438,6 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
-        //count month 15
         private void rs15(List<object> l, string contractName)
         {
             for (int i = 0; i < l.Count; i++)
@@ -410,7 +451,7 @@ namespace MainReportDemo.Data
                 }
             }
         }
-
+        
         //count month
         private void MonthCounter(List<object> dbDataMonth, string contractName)
         {
@@ -460,43 +501,110 @@ namespace MainReportDemo.Data
                         restart++;
                 }
             }
+            CountStats();
+        }
 
-            targetSla = 90.00;
-            slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
+        //count quarter
+        private void QuarterCounter(List<object> dbDataQuarter, string contractName)
+        {
+            for (int i = 0; i < dbDataQuarter.Count; i++)
+            {
+                object[] value = (object[])dbDataQuarter[i];
 
-            if (slaMonth.ToString() == "NaN" && SLABreakCounter == 0)
-                slaMonth = 100;
+                if (value[11].ToString() == contractName)
+                {
+                    reportQuarter++;
 
-            slaValue = Math.Round(100 - slaMonth, 2);
+                    if (value[13].ToString() != "")
+                        SLABreakCounterQuarter++;
+                }
+            }
+        }
 
-            if (slaMonth <= 100 && slaMonth >= 97.12)
-                slaState = "#007300";
-            else if (slaMonth < 97.12 && slaMonth >= targetSla)
-                slaState = "#a17102";
-            else
-                slaState = "#b51102";
+        //count year
+        private void YearCounter(List<object> dbDataYear, string contractName)
+        {
+            for (int i = 0; i < dbDataYear.Count; i++)
+            {
+                object[] value = (object[])dbDataYear[i];
 
+                if (value[11].ToString() == contractName)
+                {
+                    reportAmountYear++;
+
+                    if (value[6].ToString() == "True")
+                    {   //create crisis incident
+                        var ci = new CI(value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString(), "Old");
+                        _stor.AddCrisis(ci);
+                    }
+
+                    if (value[13].ToString() != "")
+                        SLABreakCounterYear++;
+                }
+            }
+        }
+
+        //count crisis
+        public void CrisisCounter(string period, string contractName)
+        {
+            if (period == "Old")
+            {
+                for (int i = 0; i < _stor.Reports.Count; i++)
+                {
+                    if (_stor.Reports[i].ContractName == contractName)
+                    {
+                        _stor.Reports[i].CriticalYear++;
+                        if (_stor.Reports[i].CriticalYear <= 1)
+                            _stor.Reports[i].ColorYear = "Yellow";
+                        else if (_stor.Reports[i].CriticalYear >= 2)
+                            _stor.Reports[i].ColorYear = "Red";
+
+                        break;
+                    }
+                }
+            }
+            else if (period == "Actual")
+            {
+                for (int i = 0; i < _stor.Reports.Count; i++)
+                {
+                    if (_stor.Reports[i].ContractName == contractName)
+                    {
+                        _stor.Reports[i].Critical++;
+                        if (_stor.Reports[i].Critical <= 1)
+                            _stor.Reports[i].Color = "Yellow";
+                        else if (_stor.Reports[i].Critical >= 2)
+                            _stor.Reports[i].Color = "Red";
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        //statistic counter
+        private void CountStats()
+        {
             double sum = noMark + five + four + three + two;
             if (sum == 0)
             {
-                five = 0;
-                four = 0;
-                three = 0;
-                two = 0;
-                noMark = 0;
+                fivePerc = 0;
+                fourPerc = 0;
+                threePerc = 0;
+                twoPerc = 0;
+                noMarkPerc = 0;
             }
             else
             {
-                five = Math.Round(five / sum * 100, 1);
-                four = Math.Round(four / sum * 100, 1);
-                three = Math.Round(three / sum * 100, 1);
-                two = Math.Round(two / sum * 100, 1);
-                noMark = Math.Round(noMark / sum * 100, 1);
+                fivePerc = Math.Round(five / sum * 100, 1);
+                fourPerc = Math.Round(four / sum * 100, 1);
+                threePerc = Math.Round(three / sum * 100, 1);
+                twoPerc = Math.Round(two / sum * 100, 1);
+                noMarkPerc = Math.Round(noMark / sum * 100, 1);
             }
 
-            restart = Math.Round(restart / reportAmount * 100, 1);
-            if (restart.ToString() == "NaN")
-                restart = 0;
+            restartPerc = Math.Round(restart / (double)reportAmount * 100, 1);
+            if (restartPerc.ToString() == "NaN")
+                restartPerc = 0;
 
             double sumRequests = requestsAccess + requestsChange + requestsUsage + requestsAdvice + plannedWork + incidents + incidentsIS;
             if (sumRequests == 0)
@@ -521,109 +629,66 @@ namespace MainReportDemo.Data
             }
         }
 
-        //count quarter
-        private void QuarterCounter(List<object> dbDataQuarter, string contractName)
+        //sla counter
+        private void CountSLA()
         {
-            for (int i = 0; i < dbDataQuarter.Count; i++)
-            {
-                object[] value = (object[])dbDataQuarter[i];
+            targetSla = 90.00;
 
-                if (value[11].ToString() == contractName)
-                {
-                    reportQuarter++;
+            //month
+            slaMonth = Math.Round((1 - SLABreakCounter / (double)reportAmount) * 100, 2);
+            if (slaMonth.ToString() == "NaN" && SLABreakCounter == 0 || SLABreakCounter == reportAmount)
+                slaMonth = 100;
 
-                    if (value[13].ToString() != "")
-                        SLABreakCounterQuarter++;
-                }
-            }
+            //table month
+            slaValue = Math.Round(100 - slaMonth, 2);
+            if (slaMonth <= 100 && slaMonth >= 97.12)
+                slaState = "Green";
+            else if (slaMonth < 97.12 && slaMonth >= targetSla)
+                slaState = "Yellow";
+            else
+                slaState = "Red";
 
+            //quarter
             slaQuarter = Math.Round((1 - SLABreakCounterQuarter / (double)reportQuarter) * 100, 2);
-
-            if (slaQuarter.ToString() == "NaN" && SLABreakCounterQuarter == 0)
+            if (slaQuarter.ToString() == "NaN" && SLABreakCounterQuarter == 0 || SLABreakCounterQuarter == reportQuarter) //SLA = count in cases when unite contacts
                 slaQuarter = 100;
 
+            //table quarter
             slaQuarterValue = Math.Round(100 - slaQuarter, 2);
-
             if (slaQuarter <= 100 && slaQuarter >= 97.12)
-                slaQuarterState = "#007300";
+                slaQuarterState = "Green";
             else if (slaQuarter < 97.12 && slaQuarter >= targetSla)
-                slaQuarterState = "#a17102";
+                slaQuarterState = "Yellow";
             else
-                slaQuarterState = "#b51102";
-        }
+                slaQuarterState = "Red";
 
-        //count year
-        private void YearCounter(List<object> dbDataYear, string contractName)
-        {
-            for (int i = 0; i < dbDataYear.Count; i++)
-            {
-                object[] value = (object[])dbDataYear[i];
-
-                if (value[11].ToString() == contractName)
-                {
-                    reportAmountYear++;
-
-                    if (value[6].ToString() == "True")
-                    {   //create crisis incident
-                        var ci = new CI(value[0].ToString(), contractName, value[7].ToString(), value[14].ToString(), value[17].ToString(), "Old");
-                        _stor.AddCrisis(ci);
-                    }
-
-                    if (value[13].ToString() != "")
-                        SLABreakCounterYear++;
-                }
-            }
-
+            //year
             slaYear = Math.Round((1 - SLABreakCounterYear / (double)reportAmountYear) * 100, 2);
-
-            if (slaYear.ToString() == "NaN" && SLABreakCounterYear == 0)
+            if (slaYear.ToString() == "NaN" && SLABreakCounterYear == 0 || SLABreakCounterYear == reportAmountYear)
                 slaYear = 100;
 
+            //table year
             slaYearValue = Math.Round(100 - slaYear, 2);
-
             if (slaYear <= 100 && slaYear >= 97.12)
-                slaYearState = "#007300";
+                slaYearState = "Green";
             else if (slaYear < 97.12 && slaYear >= targetSla)
-                slaYearState = "#a17102";
+                slaYearState = "Yellow";
             else
-                slaYearState = "#b51102";
+                slaYearState = "Red";
         }
 
-        //count crisis
-        public void CrisisCounter(string period, string contractName)
+        //check crisis
+        private void CheckCrisis()
         {
-            if (period == "Old")
-            {
-                for (int i = 0; i < _stor.Reports.Count; i++)
-                {
-                    if (_stor.Reports[i].ContractName == contractName)
-                    {
-                        _stor.Reports[i].CriticalYear++;
-                        if (_stor.Reports[i].CriticalYear <= 1)
-                            _stor.Reports[i].ColorYear = "#a17102";
-                        else if (_stor.Reports[i].CriticalYear >= 2)
-                            _stor.Reports[i].ColorYear = "#b51102";
+            if (critical == 1)
+                color = "Yellow";
+            else if (critical >= 2)
+                color = "Red";
 
-                        break;
-                    }
-                }
-            }
-            else if (period == "Actual")
-            {
-                for (int i = 0; i < _stor.Reports.Count; i++)
-                {
-                    if (_stor.Reports[i].ContractName == contractName)
-                    {
-                        _stor.Reports[i].Critical++;
-                        if (_stor.Reports[i].Critical <= 1)
-                            _stor.Reports[i].Color = "#a17102";
-                        else if (_stor.Reports[i].Critical >= 2)
-                            _stor.Reports[i].Color = "#b51102";
-
-                        break;
-                    }
-                }
-            }
+            if (criticalYear == 1)
+                colorYear = "Yellow";
+            else if (criticalYear >= 2)
+                colorYear = "Red";
         }
 
         //check db values (Marks) for dbList
@@ -641,7 +706,6 @@ namespace MainReportDemo.Data
                             list.Add(value);
                         }
             }
-
             return list;
         }
 
@@ -730,8 +794,8 @@ namespace MainReportDemo.Data
         //reset contract counters
         private void ContractResetValues()
         {
-            color = "#007300";
-            colorYear = "#007300";
+            color = "Green";
+            colorYear = "Green";
 
             critical = 0;
             criticalYear = 0;
@@ -742,13 +806,13 @@ namespace MainReportDemo.Data
 
             targetSla = 0;
             slaMonth = 0;
-            slaState = "#007300";
+            slaState = "Green";
             slaValue = 0;
             slaQuarter = 0;
-            slaQuarterState = "#007300";
+            slaQuarterState = "Green";
             slaQuarterValue = 0;
             slaYear = 0;
-            slaYearState = "#007300";
+            slaYearState = "Green";
             slaYearValue = 0;
             SLABreakCounter = 0;
             SLABreakCounterQuarter = 0;
@@ -776,6 +840,13 @@ namespace MainReportDemo.Data
             two = 0;
             noMark = 0;
             restart = 0;
+
+            fivePerc = 0;
+            fourPerc = 0;
+            threePerc = 0;
+            twoPerc = 0;
+            noMarkPerc = 0;
+            restartPerc = 0;
         }
 
         //reset graph counters
@@ -819,6 +890,12 @@ namespace MainReportDemo.Data
         public void DropCI(CI ci)
         {
             _stor.DropCrisis(ci);
+        }
+
+        //delete Report
+        public void DropReport(Report report)
+        {
+            _stor.DropReport(report);
         }
 
         //clear lists

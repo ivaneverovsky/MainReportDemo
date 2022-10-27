@@ -36,7 +36,6 @@ namespace MainReportDemo.UIModels
         public int SLA13 { get; set; }
         public int SLA14 { get; set; }
         public int SLA15 { get; set; }
-
         public Graph(string contractName, int report1, int report2, int report3, int report4, int report5, int report6, int report7, int report8, int report9, int report10, int report11, int report12, int report13, int report14, int report15, int sLA1, int sLA2, int sLA3, int sLA4, int sLA5, int sLA6, int sLA7, int sLA8, int sLA9, int sLA10, int sLA11, int sLA12, int sLA13, int sLA14, int sLA15)
         {
             ContractName = contractName;

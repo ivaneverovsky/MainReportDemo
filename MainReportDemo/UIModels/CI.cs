@@ -11,7 +11,6 @@ namespace MainReportDemo.UIModels
         public string ServiceName { get; set; }
         public string Description { get; set; }
         public string Period { get; set; }
-
         public CI(string regNum, string contractName, string status, string serviceName, string description, string period)
         {
             RegNum = regNum;

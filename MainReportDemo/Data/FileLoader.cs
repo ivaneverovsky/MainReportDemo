@@ -12,13 +12,11 @@ namespace MainReportDemo.Data
         public Dictionary<object, object> LoadFile(OpenFileDialog ofd)
         {
             Dictionary<object, object> fileData = new Dictionary<object, object>();
-
             using (var stream = File.Open(ofd.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 using (var reader = ExcelReaderFactory.CreateReader(stream))
                 {
                     var result = reader.AsDataSet(); //get data from file
-
                     for (int i = 1; i < result.Tables[0].Rows.Count; i++)
                     {
                         try
@@ -34,9 +32,7 @@ namespace MainReportDemo.Data
                     }
                 }
             }
-
             MessageBox.Show("Файл загружен!", "Готово");
-
             return fileData;
         }
     }

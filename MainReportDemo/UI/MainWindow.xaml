@@ -147,7 +147,6 @@
                         <ListView x:Name="crisisListView">
                             <ListView.View>
                                 <GridView>
-
                                     <GridViewColumn Header="Номер заявки" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -155,7 +154,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="Сервисный контракт" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -163,7 +161,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="Статус" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -171,7 +168,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="Сервис" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -179,7 +175,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="Описание" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -187,7 +182,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -235,20 +229,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem>
-                                                    <UniformGrid Columns="1" Rows="2" >
-                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding SLAMonth}"/>
-                                                            <TextBlock Text=" % / "/>
-                                                            <TextBlock Text="{Binding TargetSLA}"/>
-                                                            <TextBlock Text=" %"/>
-                                                        </StackPanel>
-                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                                            <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
-                                                            <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
-                                                            <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
-                                                        </StackPanel>
-                                                    </UniformGrid>
-                                                    <!--<StackPanel Orientation="Vertical">
+                                                    <StackPanel Orientation="Vertical">
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="{Binding SLAMonth}"/>
                                                             <TextBlock Text=" % / "/>
@@ -260,7 +241,7 @@
                                                             <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
                                                             <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
                                                         </StackPanel>
-                                                    </StackPanel>-->
+                                                    </StackPanel>
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -579,7 +560,6 @@
                                     </lvc:Axis.Sections>
                                 </lvc:Axis>
                             </lvc:CartesianChart.AxisY>
-
                             <lvc:CartesianChart.AxisX>
                                 <lvc:Axis>
                                     <lvc:Axis.Sections>

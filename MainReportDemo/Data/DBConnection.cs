@@ -9,9 +9,7 @@ namespace MainReportDemo.Data
 {
     internal class DBConnection
     {
-
         readonly OleDbConnection connection = new OleDbConnection(@"Provider=MSOLEDBSQL.1;Initial Catalog=TestData;Data Source=(localdb)\MSSQLLocalDB;Trusted_Connection=Yes;Persist Security Info=False");
-
         public async Task CreateConnection()
         {
             try
@@ -23,40 +21,28 @@ namespace MainReportDemo.Data
                 MessageBox.Show(ex.Message, "Ошибка");
             }
         }
-
         public async Task<List<object>> SendCommandRequest(string request)
         {
             OleDbCommand command = new OleDbCommand(request, connection);
-
-            //store data from db here
-            List<object> dbData = new List<object>();
-
+            List<object> dbData = new List<object>(); //store data from db here
             try
             {
-                //read data from db
-                OleDbDataReader reader = (OleDbDataReader)await command.ExecuteReaderAsync();
-
+                OleDbDataReader reader = (OleDbDataReader)await command.ExecuteReaderAsync(); //read data from db
                 while (reader.Read())
                 {
-                    //create row
-                    object[] row = new object[reader.FieldCount];
-
+                    object[] row = new object[reader.FieldCount]; //create row
                     reader.GetValues(row);
                     dbData.Add(row);
                 }
-
                 reader.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка");
             }
-
             command.Dispose();
-
             return dbData;
         }
-
         public void CloseConnection()
         {
             if (connection.State == ConnectionState.Open)

@@ -52,7 +52,6 @@ namespace MainReportDemo.UIModels
         public double NoMarkPerc { get; set; }
         public int Restart { get; set; }
         public double RestartPerc { get; set; }
-
         public Report(string color, string colorYear, string contractName, int reportAmount, int reportAmountQuarter, int reportAmountYear, int critical, int criticalYear, double targetSLA, double sLAMonth, string sLAState, double sLAValue, double sLAQuarter, string sLAQuarterState, double sLAQuarterValue, double sLAYear, string sLAYearState, double sLAYearValue, int sLABreakCounter, int sLABreakCounterQuarter, int sLABreakCounterYear, int requestsAccess, double accessPerc, int requestsChange, double changePerc, int requestsUsage, double usagePerc, int incidents, double incidentsPerc, int incidentsIS, double incidentsISPerc, int requestsAdvice, double advicePerc, int plannedWork, double plannedWorkPerc, int five, double fivePerc, int four, double fourPerc, int three, double threePerc, int two, double twoPerc, int noMark, double noMarkPerc, int restart, double restartPerc)
         {
             Color = color;

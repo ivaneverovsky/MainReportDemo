@@ -17,17 +17,11 @@ namespace MainReportDemo
         DBConnection _db = new DBConnection();
         Calculations _calc = new Calculations();
         FileLoader _fl = new FileLoader();
-
-        //store contracts from db 
-        private List<object> dbData = new List<object>();
-
-        //store sorted data for contracts by date from db
-        private List<object> dbDataMonth = new List<object>();
+        private List<object> dbData = new List<object>(); //store contracts from db 
+        private List<object> dbDataMonth = new List<object>();  //store sorted data for contracts by date from db
         private List<object> dbDataQuarter = new List<object>();
         private List<object> dbDataYear = new List<object>();
-
-        //store sorted data for graph by date from db
-        private List<object> l1 = new List<object>();
+        private List<object> l1 = new List<object>(); //store sorted data for graph by date from db
         private List<object> l2 = new List<object>();
         private List<object> l3 = new List<object>();
         private List<object> l4 = new List<object>();
@@ -42,29 +36,17 @@ namespace MainReportDemo
         private List<object> l13 = new List<object>();
         private List<object> l14 = new List<object>();
         private List<object> l15 = new List<object>();
-
-        //store contracts
-        private List<object> contractsList = new List<object>();
+        private List<object> contractsList = new List<object>(); //store contracts
         private List<object> deletedContracts = new List<object>();
-
-        //store crisis incidents
-        private List<CI> crisisList = new List<CI>();
+        private List<CI> crisisList = new List<CI>(); //store crisis incidents
         private List<CI> selectedCrisisList = new List<CI>();
-
-        //store data from cds file
-        Dictionary<object, object> fileRows = new Dictionary<object, object>();
-
-        //datetime for contracts
-        private DateTime yearDate;
+        Dictionary<object, object> fileRows = new Dictionary<object, object>(); //store data from cds file
+        private DateTime yearDate; //datetime for contracts
         private DateTime QuarterSDate;
         private DateTime QuaterFDate;
         private DateTime MonthDate;
-
-        //Quarter value
-        string quarter;
-
-        //datetime for graph
-        private DateTime d1;
+        string quarter;  //Quarter value
+        private DateTime d1; //datetime for graph
         private DateTime d2;
         private DateTime d3;
         private DateTime d4;
@@ -79,15 +61,11 @@ namespace MainReportDemo
         private DateTime d13;
         private DateTime d14;
         private DateTime d15;
-
-        //requests to db for contracts
-        private string contractsRequest;
+        private string contractsRequest; //requests to db for contracts
         private string monthRequest;
         private string quarterRequest;
         private string yearRequest;
-
-        //requests to db for graph
-        private string r1;
+        private string r1; //requests to db for graph
         private string r2;
         private string r3;
         private string r4;
@@ -106,21 +84,13 @@ namespace MainReportDemo
         public MainWindow()
         {
             InitializeComponent();
-
-            //set data for program
-            SetDate();
+            SetDate(); //set data for program
             SetRequests();
-
-            //list contracts
-            GetContractsListFromDB(contractsRequest);
+            GetContractsListFromDB(contractsRequest); //list contracts
             MakeContracts(dbData);
-
-            //shows report date
-            reportDateMonth.Text = _odm.ReportDateMonth;
+            reportDateMonth.Text = _odm.ReportDateMonth; //shows report date
             reportDateYear.Text = _odm.ReportDateYear;
-
-            //try load program state
-            try
+            try //try load program state
             {
                 _calc.LoadData();
                 Restore();
@@ -130,17 +100,31 @@ namespace MainReportDemo
                 MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.", "Внимание");
             }
         }
+        private void Restore() //restore saved data
+        {
+            List<Report> restoredReports = _calc.CollectReports(); //collect reports
+            for (int i = 0; i < restoredReports.Count; i++)
+            {
+                reportListView.Items.Add(restoredReports[i]);
+                slaListView.Items.Add(restoredReports[i]);
+            }
+            List<Graph> restoredGraph = _calc.CollectGraph(); //collect graphs
+            Graph last = restoredGraph.Last(); //because of program logic, last graph contains actual info
+            _calc.GraphLastState(last);
+            graphSLA.Series = _calc.SeriesCollection;
+            graphSLA.AxisX[0].Labels = _calc.Labels;
+            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+            CountCrisis(); //restore crisis
+            txtBoxFilePath.Text = "Оценки ЦДС были восстановлены. Для обновления загрузите новый файл."; //cds info
+        }
 
-        //get contracts list from db
-        private async void GetContractsListFromDB(string request)
+        private async void GetContractsListFromDB(string request) //get contracts list from db
         {
             await _db.CreateConnection();
             dbData = await _db.SendCommandRequest(request);
             _db.CloseConnection();
         }
-
-        //get data for contracts from db
-        private async Task GetContractsData()
+        private async Task GetContractsData() //get data for contracts from db
         {
             await _db.CreateConnection();
             dbDataMonth = await _db.SendCommandRequest(monthRequest);
@@ -148,9 +132,7 @@ namespace MainReportDemo
             dbDataYear = await _db.SendCommandRequest(yearRequest);
             _db.CloseConnection();
         }
-
-        //get data for graph
-        private async Task GetGraphData()
+        private async Task GetGraphData() //get data for graph
         {
             await _db.CreateConnection();
             l1 = await _db.SendCommandRequest(r1);
@@ -171,121 +153,46 @@ namespace MainReportDemo
             _db.CloseConnection();
         }
 
-        //button "Вычислить", count everything
-        private async void Count(object sender, RoutedEventArgs e)
+        private async void Count(object sender, RoutedEventArgs e) //button "Вычислить", count everything
         {
             if (contractsListView.Items.Count == 0)
             {
                 MessageBox.Show("Список контрактов для расчета пуст! Добавьте контракт!", "Внимание");
                 return;
             }
-
             Cleaning();
-
-            //get contracts and graph info
-            await GetContractsData();
+            await GetContractsData(); //get contracts and graph info
             await GetGraphData();
-
-            //build cds marks model
-            if (fileRows.Count != 0)
+            if (fileRows.Count != 0) //build cds marks model
             {
                 _calc.FileBuilder(fileRows);
-
-                //check values with file and rewrite month list from db
-                dbDataMonth = _calc.dbCheck(dbDataMonth);
+                dbDataMonth = _calc.dbCheck(dbDataMonth); //check values with file and rewrite month list from db
             }
-
-            //count contracts, graph and crisis incidents
-            CountReports();
+            CountReports(); //count contracts, graph and crisis incidents
             BuildGraph();
             CountCrisis();
-
-            //save program state
-            _calc.SaveData();
-
+            _calc.SaveData(); //save program state
             txtBoxFilePath.Text = "Готово. Кризисные инциденты добавляются вручную (при наличии).";
         }
-
-        //count reports
-        private void CountReports()
-        {
-            foreach (object contract in contractsList)
-                _calc.ResultBuilder(dbDataMonth, dbDataQuarter, dbDataYear, contract.ToString());
-
-            List<Report> reportList = _calc.CollectReports();
-
-            for (int i = 0; i < reportList.Count; i++)
-            {
-                reportListView.Items.Add(reportList[i]);
-                slaListView.Items.Add(reportList[i]);
-            }
-        }
-
-        //build graph
-        private void BuildGraph()
-        {
-            foreach (object contract in contractsList)
-                _calc.GraphBuilder(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, contract.ToString());
-
-            _calc.BuildGraph();
-            graphSLA.Series = _calc.SeriesCollection;
-            graphSLA.AxisX[0].Labels = _calc.Labels;
-            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
-        }
-
-        //show crisis
-        private void CountCrisis()
-        {
-            List<CI> ciList = _calc.CollectCI();
-
-            for (int i = 0; i < ciList.Count; i++)
-            {
-                crisisList.Add(ciList[i]);
-                crisisListView.Items.Add(ciList[i]);
-            }
-        }
-
-        //parse db data to contracts list
-        private void MakeContracts(List<object> dbData)
-        {
-            for (int i = 0; i < dbData.Count; i++)
-            {
-                object[] item = (object[])dbData[i];
-
-                if (item[0].ToString() != "")
-                    contractsList.Add(item[0]);
-            }
-
-            for (int i = 0; i < contractsList.Count; i++)
-                contractsListView.Items.Add(contractsList[i]);
-
-            dbData.Clear();
-        }
-
-        //add selected contracts to contract list and contractsListView
-        private void Add(object sender, RoutedEventArgs e)
+        private void Add(object sender, RoutedEventArgs e) //add selected contracts to contract list and contractsListView
         {
             if (deletedContractsListView.SelectedItems.Count == 0)
             {
                 MessageBox.Show("Доступные контракты не выбраны!", "Внимание");
                 return;
             }
-
             foreach (var item in deletedContractsListView.SelectedItems)
             {
                 contractsList.Add(item);
                 contractsListView.Items.Add(item);
             }
-
             foreach (var item in contractsList)
             {
                 deletedContracts.Remove(item);
                 deletedContractsListView.Items.Remove(item);
             }
         }
-
-        //delete selected contracts from contract list and contractListview
-        private void Delete(object sender, RoutedEventArgs e)
+        private void Delete(object sender, RoutedEventArgs e) //delete selected contracts from contract list and contractListview
         {
             if (contractsListView.SelectedItems.Count == 0)
             {
@@ -305,14 +212,149 @@ namespace MainReportDemo
                 contractsListView.Items.Remove(item);
             }
         }
-
-        //set date for year, quarter and month
-        private void SetDate()
+        private void Export(object sender, RoutedEventArgs e) //export data to file
         {
-            //date for contracts
-            yearDate = new DateTime(DateTime.Now.Year, 1, 1);
-            MonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            try
+            {
+                StreamWriter sw = new StreamWriter("result.csv", false, Encoding.Default);
+                sw.WriteLine("ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
+                    "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
+                    "NoMark;Restart;");
+                foreach (var item in _calc.CollectReports())
+                    sw.WriteLine(item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
+                        + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";"
+                        + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";"
+                        + item.RequestsAdvice + ";" + item.PlannedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"
+                        + item.NoMark + ";" + item.Restart + ";");
+                sw.WriteLine("\n\nДанные за текущий месяц: " + MonthDate.Month.ToString() + "." + MonthDate.Year.ToString());
+                sw.WriteLine("Квартал: " + QuarterSDate.Day.ToString() + "." + QuarterSDate.Month.ToString() + "." + QuarterSDate.Year.ToString() + " - " + QuaterFDate.Day.ToString() + "." + QuaterFDate.Month.ToString() + "." + QuaterFDate.Year.ToString() + " (" + quarter + ")");
+                sw.WriteLine("Год: " + yearDate.Year.ToString());
+                sw.Close();
+                MessageBox.Show("Файл записан!", "Готово");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+            }
+        }
+        private void LoadFile(object sender, RoutedEventArgs e) //load file with CDS marks
+        {
+            fileRows.Clear(); //clear cds dictionary first
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Excel files (*.xlsx)|*.xlsx";
+            if (ofd.ShowDialog() == true)
+                txtBoxFilePath.Text = ofd.FileName;
+            if (ofd.FileName == "")
+            {
+                MessageBox.Show("Файл ЦДС не выбран!", "Внимание");
+                return;
+            }
+            fileRows = _fl.LoadFile(ofd);
+        }
+        private void Reload(object sender, RoutedEventArgs e) //reload crisis incidents
+        {
+            if (crisisListView.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("Кризисные инциденты не выбраны!", "Внимание");
+                return;
+            }
+            foreach (CI item in crisisListView.SelectedItems)
+                selectedCrisisList.Add(item);
+            foreach (CI item in selectedCrisisList)
+            {
+                crisisList.Remove(item);
+                crisisListView.Items.Remove(item);
+                _calc.DropCI(item);
+            }
+            foreach (CI contract in selectedCrisisList)
+                _calc.CrisisCounter(contract.Period, contract.ContractName);
+            selectedCrisisList.Clear();
+            reportListView.Items.Refresh(); //refresh UI list views
+            slaListView.Items.Refresh();
+            _calc.SaveData();
+            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавлены.";
+        }
+        private void Unite(object sender, RoutedEventArgs e) //unite selected contracts
+        {
+            if (reportListView.SelectedItems.Count == 0) //checkers
+            {
+                MessageBox.Show("Контракты для объединения не выбраны!", "Внимание");
+                return;
+            }
+            if (reportListView.SelectedItems.Count == 1)
+            {
+                MessageBox.Show("Выберите как минимум 2 контракта для объединения!", "Внимание");
+                return;
+            }
+            if (txtNewContr.Text == "")
+            {
+                MessageBox.Show("Название нового контракта не указано!", "Внимание");
+                return;
+            }
+            List<Report> newContract = new List<Report>(); //add info to list and string
+            string newContractName = txtNewContr.Text;
+            foreach (Report item in reportListView.SelectedItems)
+                newContract.Add(item);
+            foreach (var item in newContract)  //drop contarct from store and UI
+            {
+                reportListView.Items.Remove(item);
+                slaListView.Items.Remove(item);
+                _calc.DropReport(item);
+            }
+            Report newReport = _calc.NewContract(newContract, newContractName); //build new contract
+            reportListView.Items.Add(newReport); //add contract to UI list views
+            slaListView.Items.Add(newReport);
+            _calc.SaveData();
+            txtNewContr.Text = "";
+            txtBoxFilePath.Text = "Готово. Контракты объединены.";
+        }
 
+        private void CountReports() //count reports
+        {
+            foreach (object contract in contractsList)
+                _calc.ResultBuilder(dbDataMonth, dbDataQuarter, dbDataYear, contract.ToString());
+            List<Report> reportList = _calc.CollectReports();
+            for (int i = 0; i < reportList.Count; i++)
+            {
+                reportListView.Items.Add(reportList[i]);
+                slaListView.Items.Add(reportList[i]);
+            }
+        }
+        private void BuildGraph() //build graph
+        {
+            foreach (object contract in contractsList)
+                _calc.GraphBuilder(l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, contract.ToString());
+            _calc.BuildGraph();
+            graphSLA.Series = _calc.SeriesCollection;
+            graphSLA.AxisX[0].Labels = _calc.Labels;
+            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
+        }
+        private void CountCrisis() //show crisis
+        {
+            List<CI> ciList = _calc.CollectCI();
+            for (int i = 0; i < ciList.Count; i++)
+            {
+                crisisList.Add(ciList[i]);
+                crisisListView.Items.Add(ciList[i]);
+            }
+        }
+        private void MakeContracts(List<object> dbData) //parse db data to contracts list
+        {
+            for (int i = 0; i < dbData.Count; i++)
+            {
+                object[] item = (object[])dbData[i];
+                if (item[0].ToString() != "")
+                    contractsList.Add(item[0]);
+            }
+            for (int i = 0; i < contractsList.Count; i++)
+                contractsListView.Items.Add(contractsList[i]);
+            dbData.Clear();
+        }
+        
+        private void SetDate() //set date for year, quarter and month
+        {
+            yearDate = new DateTime(DateTime.Now.Year, 1, 1); //date for contracts
+            MonthDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             if (DateTime.Now.Month >= 1 && DateTime.Now.Month <= 3)
             {
                 QuarterSDate = new DateTime(DateTime.Now.Year, 1, 1);
@@ -337,9 +379,7 @@ namespace MainReportDemo
                 QuaterFDate = new DateTime(DateTime.Now.Year, 12, 31);
                 quarter = "IV";
             }
-
-            //date for graph
-            d1 = MonthDate.AddMonths(-14);
+            d1 = MonthDate.AddMonths(-14); //date for graph
             _calc.Labels.Add(_odm.ReturnMonthGraph(d1));
             d2 = MonthDate.AddMonths(-13);
             _calc.Labels.Add(_odm.ReturnMonthGraph(d2));
@@ -370,20 +410,13 @@ namespace MainReportDemo
             d15 = MonthDate;
             _calc.Labels.Add(_odm.ReturnMonthGraph(d15));
         }
-
-        //set db requests
-        private void SetRequests()
+        private void SetRequests() //set db requests
         {
-            //contract list
-            contractsRequest = @"SELECT DISTINCT ServiceContractTitle FROM dbo.RequestsFull";
-
-            //contract details
-            monthRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + MonthDate + "'";
+            contractsRequest = @"SELECT DISTINCT ServiceContractTitle FROM dbo.RequestsFull"; //contract list
+            monthRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + MonthDate + "'"; //contract details
             quarterRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + QuarterSDate + "' AND CAST([CreateDate] AS date) <= '" + QuaterFDate + "'";
             yearRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + yearDate + "'";
-
-            //graph details
-            r1 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d1 + "' AND CAST([CreateDate] AS date) < '" + d2 + "'";
+            r1 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d1 + "' AND CAST([CreateDate] AS date) < '" + d2 + "'"; //graph details
             r2 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d2 + "' AND CAST([CreateDate] AS date) < '" + d3 + "'";
             r3 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d3 + "' AND CAST([CreateDate] AS date) < '" + d4 + "'";
             r4 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d4 + "' AND CAST([CreateDate] AS date) < '" + d5 + "'";
@@ -399,28 +432,18 @@ namespace MainReportDemo
             r14 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d14 + "' AND CAST([CreateDate] AS date) < '" + d15 + "'";
             r15 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d15 + "'";
         }
-
-        //erase data
-        private void Cleaning()
+        
+        private void Cleaning() //erase data
         {
-            //clear list views
-            reportListView.Items.Clear();
+            reportListView.Items.Clear(); //clear list views
             slaListView.Items.Clear();
             crisisListView.Items.Clear();
-
-            //clear graph
-            graphSLA.Update();
-
-            //clear storage
-            _calc.ClearData();
-
-            //clear contracts lists
-            dbDataMonth.Clear();
+            graphSLA.Update(); //clear graph
+            _calc.ClearData(); //clear storage
+            dbDataMonth.Clear(); //clear contracts lists
             dbDataQuarter.Clear();
             dbDataYear.Clear();
-
-            //clear graph lists
-            l1.Clear();
+            l1.Clear(); //clear graph lists
             l2.Clear();
             l3.Clear();
             l4.Clear();
@@ -435,163 +458,6 @@ namespace MainReportDemo
             l13.Clear();
             l14.Clear();
             l15.Clear();
-        }
-
-        //restore saved data
-        private void Restore()
-        {
-            //collect reports
-            List<Report> restoredReports = _calc.CollectReports();
-            for (int i = 0; i < restoredReports.Count; i++)
-            {
-                reportListView.Items.Add(restoredReports[i]);
-                slaListView.Items.Add(restoredReports[i]);
-            }
-
-            //collect graphs
-            List<Graph> restoredGraph = _calc.CollectGraph();
-
-            //because of program logic, last graph contains actual info
-            Graph last = restoredGraph.Last();
-            _calc.GraphLastState(last);
-
-            graphSLA.Series = _calc.SeriesCollection;
-            graphSLA.AxisX[0].Labels = _calc.Labels;
-            graphSLA.AxisY[1].LabelFormatter = _calc.Formatter;
-
-            //restore crisis
-            CountCrisis();
-
-            //cds info
-            txtBoxFilePath.Text = "Оценки ЦДС были восстановлены. Для обновления загрузите новый файл.";
-        }
-
-        //export data to file
-        private void Export(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                StreamWriter sw = new StreamWriter("result.csv", false, Encoding.Default);
-                sw.WriteLine("ContractName;ReportAmount;ReportAmountYear;Critical;CriticalYear;SLAMonth;SLAQuarter;SLAYear;" +
-                    "RequestsAccess;RequestsChange;RequestsUsage;Incidents;IncidentsIS;RequestsAdvice;PlannedWork;Five;Four;Three;Two;" +
-                    "NoMark;Restart;");
-                foreach (var item in _calc.CollectReports())
-                    sw.WriteLine(item.ContractName + ";" + item.ReportAmount + ";" + item.ReportAmountYear + ";"
-                        + item.Critical + ";" + item.CriticalYear + ";" + item.SLAMonth + ";" + item.SLAQuarter + ";" + item.SLAYear + ";"
-                        + item.RequestsAccess + ";" + item.RequestsChange + ";" + item.RequestsUsage + ";" + item.Incidents + ";" + item.IncidentsIS + ";"
-                        + item.RequestsAdvice + ";" + item.PlannedWork + ";" + item.Five + ";" + item.Four + ";" + item.Three + ";" + item.Two + ";"
-                        + item.NoMark + ";" + item.Restart + ";");
-
-                sw.WriteLine("\n\nДанные за текущий месяц: " + MonthDate.Month.ToString() + "." + MonthDate.Year.ToString());
-                sw.WriteLine("Квартал: " + QuarterSDate.Day.ToString() + "." + QuarterSDate.Month.ToString() + "." + QuarterSDate.Year.ToString() + " - " + QuaterFDate.Day.ToString() + "." + QuaterFDate.Month.ToString() + "." + QuaterFDate.Year.ToString() + " (" + quarter + ")");
-                sw.WriteLine("Год: " + yearDate.Year.ToString());
-                sw.Close();
-
-                MessageBox.Show("Файл записан!", "Готово");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка");
-            }
-        }
-
-        //load file with CDS marks
-        private void LoadFile(object sender, RoutedEventArgs e)
-        {
-            //clear cds dictionary first
-            fileRows.Clear();
-
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Excel files (*.xlsx)|*.xlsx";
-            if (ofd.ShowDialog() == true)
-                txtBoxFilePath.Text = ofd.FileName;
-
-            if (ofd.FileName == "")
-            {
-                MessageBox.Show("Файл ЦДС не выбран!", "Внимание");
-                return;
-            }
-
-            fileRows = _fl.LoadFile(ofd);
-        }
-
-        //reload crisis incidents
-        private void Reload(object sender, RoutedEventArgs e)
-        {
-            if (crisisListView.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Кризисные инциденты не выбраны!", "Внимание");
-                return;
-            }
-
-            foreach (CI item in crisisListView.SelectedItems)
-                selectedCrisisList.Add(item);
-
-            foreach (CI item in selectedCrisisList)
-            {
-                crisisList.Remove(item);
-                crisisListView.Items.Remove(item);
-                _calc.DropCI(item);
-            }
-
-            foreach (CI contract in selectedCrisisList)
-                _calc.CrisisCounter(contract.Period, contract.ContractName);
-
-            selectedCrisisList.Clear();
-
-            //refresh UI list views
-            reportListView.Items.Refresh();
-            slaListView.Items.Refresh();
-
-            _calc.SaveData();
-
-            txtBoxFilePath.Text = "Готово. Кризисные инциденты добавлены.";
-        }
-
-        //unite selected contracts
-        private void Unite(object sender, RoutedEventArgs e)
-        {
-            //checkers
-            if (reportListView.SelectedItems.Count == 0)
-            {
-                MessageBox.Show("Контракты для объединения не выбраны!", "Внимание");
-                return;
-            }
-            if (reportListView.SelectedItems.Count == 1)
-            {
-                MessageBox.Show("Выберите как минимум 2 контракта для объединения!", "Внимание");
-                return;
-            }
-            if (txtNewContr.Text == "")
-            {
-                MessageBox.Show("Название нового контракта не указано!", "Внимание");
-                return;
-            }
-
-            //add info to list and string
-            List<Report> newContract = new List<Report>();
-            string newContractName = txtNewContr.Text;
-            foreach (Report item in reportListView.SelectedItems)
-                newContract.Add(item);
-
-            //drop contarct from store and UI
-            foreach (var item in newContract)
-            {
-                reportListView.Items.Remove(item);
-                slaListView.Items.Remove(item);
-                _calc.DropReport(item);
-            }
-
-            //build new contract
-            Report newReport = _calc.NewContract(newContract, newContractName);
-
-            //add contract to UI list views
-            reportListView.Items.Add(newReport);
-            slaListView.Items.Add(newReport);
-
-            _calc.SaveData();
-            txtNewContr.Text = "";
-            txtBoxFilePath.Text = "Готово. Контракты объединены.";
         }
     }
 }

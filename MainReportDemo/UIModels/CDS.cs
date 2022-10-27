@@ -7,7 +7,6 @@ namespace MainReportDemo.UIModels
     {
         public string RegNum { get; set; }
         public string Mark { get; set; }
-
         public CDS(string regNum, string mark)
         {
             RegNum = regNum;

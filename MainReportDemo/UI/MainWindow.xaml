@@ -55,17 +55,11 @@
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="FontFamily" Value="Calibri"/>
             <Setter Property="FontSize" Value="11"/>
-            <Setter Property="IsHitTestVisible" Value="True"/>
-            <Style.Triggers>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="CornflowerBlue"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Background" Value="CornflowerBlue"/>
-                </Trigger>
-            </Style.Triggers>
+            <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
         <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="true">
@@ -93,12 +87,10 @@
             <ColumnDefinition Width="929*"/>
             <ColumnDefinition Width="48*"/>
         </Grid.ColumnDefinitions>
-
         <TextBlock x:Name="reportDateMonth" FontWeight="Bold" Foreground="White" FontFamily="Calibri" FontSize="40" HorizontalAlignment="Left"
                    Text="{Binding ReportDateTime}" VerticalAlignment="Top" Grid.Column="1" Margin="10,29,0,0"/>
         <TextBlock x:Name ="reportDateYear" FontWeight="Bold" Foreground="White" FontFamily="Calibri" FontSize="40" HorizontalAlignment="Left" Margin="172,29,0,0"
                    Text="{Binding ReportDateYear}" VerticalAlignment="Top" Grid.Column="1" />
-
         <TabControl x:Name="MainReportTab" Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" Grid.RowSpan="3" FontFamily="Calibri" Background="DimGray" BorderThickness="0" Foreground="White">
             <TabControl.Resources>
                 <Style TargetType="TabItem">
@@ -243,19 +235,32 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <ListViewItem>
-                                                    <StackPanel Orientation="Vertical">
+                                                    <UniformGrid Columns="1" Rows="2" >
+                                                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding SLAMonth}"/>
+                                                            <TextBlock Text=" % / "/>
+                                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                                            <TextBlock Text=" %"/>
+                                                        </StackPanel>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                                            <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                                            <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
+                                                        </StackPanel>
+                                                    </UniformGrid>
+                                                    <!--<StackPanel Orientation="Vertical">
                                                         <StackPanel Orientation="Horizontal">
                                                             <TextBlock Text="{Binding SLAMonth}"/>
                                                             <TextBlock Text=" % / "/>
                                                             <TextBlock Text="{Binding TargetSLA}"/>
                                                             <TextBlock Text=" %"/>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
                                                             <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
                                                             <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
                                                         </StackPanel>
-                                                    </StackPanel>
+                                                    </StackPanel>-->
                                                 </ListViewItem>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
@@ -414,7 +419,7 @@
                                                             <TextBlock Text="{Binding TargetSLA}"/>
                                                             <TextBlock Text=" %"/>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
                                                             <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
                                                             <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
@@ -424,7 +429,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="SLA квартал" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -436,7 +440,7 @@
                                                             <TextBlock Text="{Binding TargetSLA}"/>
                                                             <TextBlock Text=" %"/>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <TextBlock Foreground="{Binding SLAQuarterState}" Text=" ("/>
                                                             <TextBlock Foreground="{Binding SLAQuarterState}" Text="{Binding SLAQuarterValue}"/>
                                                             <TextBlock Foreground="{Binding SLAQuarterState}" Text=" %)"/>
@@ -446,7 +450,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-
                                     <GridViewColumn Header="SLA год" Width="Auto">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
@@ -458,7 +461,7 @@
                                                             <TextBlock Text="{Binding TargetSLA}"/>
                                                             <TextBlock Text=" %"/>
                                                         </StackPanel>
-                                                        <StackPanel Orientation="Horizontal">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <TextBlock Foreground="{Binding SLAYearState}" Text=" ("/>
                                                             <TextBlock Foreground="{Binding SLAYearState}" Text="{Binding SLAYearValue}"/>
                                                             <TextBlock Foreground="{Binding SLAYearState}" Text=" %)"/>
@@ -589,11 +592,9 @@
                 </TabItem.Content>
             </TabItem>
         </TabControl>
-
         <TextBox x:Name="txtBoxFilePath" Margin="10,10,10,0" TextWrapping="Wrap" Foreground="White" FontSize="12" BorderThickness="0" Focusable="False" IsHitTestVisible="False" FontFamily="Calibri" VerticalContentAlignment="Center" FontWeight="Light" Background="#201f21" Text="Выберете файл с оценками ЦДС" Height="20" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"/>
         <Button Grid.Column="1" Content="Файл ЦДС" Click="LoadFile" ToolTip="Загрузить оценки ЦДС" Grid.Row="4" HorizontalAlignment="Left"/>
         <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Click="Export" HorizontalAlignment="Right" Grid.Row="4"/>
         <Button Grid.Column="1" Content="Вычислить" FontSize="14" FontWeight="Bold" ToolTip="Сделать расчет сервисной деятельности" Click="Count" HorizontalAlignment="Center" Grid.Row="4"/>
-
     </Grid>
 </Window>

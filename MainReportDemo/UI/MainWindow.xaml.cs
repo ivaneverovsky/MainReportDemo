@@ -17,10 +17,12 @@ namespace MainReportDemo
         DBConnection _db = new DBConnection();
         Calculations _calc = new Calculations();
         FileLoader _fl = new FileLoader();
+
         private List<object> dbData = new List<object>(); //store contracts from db 
         private List<object> dbDataMonth = new List<object>();  //store sorted data for contracts by date from db
         private List<object> dbDataQuarter = new List<object>();
         private List<object> dbDataYear = new List<object>();
+
         private List<object> l1 = new List<object>(); //store sorted data for graph by date from db
         private List<object> l2 = new List<object>();
         private List<object> l3 = new List<object>();
@@ -36,16 +38,22 @@ namespace MainReportDemo
         private List<object> l13 = new List<object>();
         private List<object> l14 = new List<object>();
         private List<object> l15 = new List<object>();
+
         private List<object> contractsList = new List<object>(); //store contracts
         private List<object> deletedContracts = new List<object>();
+
         private List<CI> crisisList = new List<CI>(); //store crisis incidents
         private List<CI> selectedCrisisList = new List<CI>();
+
         Dictionary<object, object> fileRows = new Dictionary<object, object>(); //store data from cds file
+
         private DateTime yearDate; //datetime for contracts
         private DateTime QuarterSDate;
         private DateTime QuaterFDate;
         private DateTime MonthDate;
+
         string quarter;  //Quarter value
+
         private DateTime d1; //datetime for graph
         private DateTime d2;
         private DateTime d3;
@@ -61,10 +69,12 @@ namespace MainReportDemo
         private DateTime d13;
         private DateTime d14;
         private DateTime d15;
+
         private string contractsRequest; //requests to db for contracts
         private string monthRequest;
         private string quarterRequest;
         private string yearRequest;
+
         private string r1; //requests to db for graph
         private string r2;
         private string r3;

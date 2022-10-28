@@ -96,8 +96,6 @@ namespace MainReportDemo
             InitializeComponent();
             SetDate(); //set data for program
             SetRequests();
-            GetContractsListFromDB(contractsRequest); //list contracts
-            MakeContracts(dbData);
             reportDateMonth.Text = _odm.ReportDateMonth; //shows report date
             reportDateYear.Text = _odm.ReportDateYear;
             try //try load program state
@@ -163,6 +161,11 @@ namespace MainReportDemo
             _db.CloseConnection();
         }
 
+        private void Connect(object sender, RoutedEventArgs e) //connect to db get contracts
+        {
+            GetContractsListFromDB(contractsRequest); //list contracts
+            MakeContracts(dbData);
+        } 
         private async void Count(object sender, RoutedEventArgs e) //button "Вычислить", count everything
         {
             if (contractsListView.Items.Count == 0)
@@ -350,6 +353,10 @@ namespace MainReportDemo
         }
         private void MakeContracts(List<object> dbData) //parse db data to contracts list
         {
+            contractsList.Clear();
+            contractsListView.Items.Clear();
+            deletedContracts.Clear();
+            deletedContractsListView.Items.Clear();
             for (int i = 0; i < dbData.Count; i++)
             {
                 object[] item = (object[])dbData[i];

@@ -86,6 +86,7 @@
             <ColumnDefinition Width="48*"/>
             <ColumnDefinition Width="929*"/>
             <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="reportDateMonth" FontWeight="Bold" Foreground="White" FontFamily="Calibri" FontSize="40" HorizontalAlignment="Left"
                    Text="{Binding ReportDateTime}" VerticalAlignment="Top" Grid.Column="1" Margin="10,29,0,0"/>
@@ -348,7 +349,7 @@
                             </ListView.View>
                         </ListView>
                         <Label Content="Введите название нового контракта: " FontSize="12" Margin="0,30,0,0"/>
-                        <TextBox Name="txtNewContr" Width="150" HorizontalAlignment="Left" Foreground="White" Background="#201f21" Height="20" FontFamily="Calibri" BorderThickness="0" FontSize="13"/> 
+                        <TextBox Name="txtNewContr" Width="150" HorizontalAlignment="Left" Foreground="White" Background="#201f21" Height="20" FontFamily="Calibri" BorderThickness="0" FontSize="13"/>
                         <Button Content="Объединить" Click="Unite" HorizontalAlignment="Left" ToolTip="Объединить выделенные контракты"/>
                     </StackPanel>
                 </TabItem.Content>
@@ -576,5 +577,6 @@
         <Button Grid.Column="1" Content="Файл ЦДС" Click="LoadFile" ToolTip="Загрузить оценки ЦДС" Grid.Row="4" HorizontalAlignment="Left"/>
         <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Click="Export" HorizontalAlignment="Right" Grid.Row="4"/>
         <Button Grid.Column="1" Content="Вычислить" FontSize="14" FontWeight="Bold" ToolTip="Сделать расчет сервисной деятельности" Click="Count" HorizontalAlignment="Center" Grid.Row="4"/>
+        <Button Grid.Column="3" Content="Подключиться" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" Click="Connect"/>
     </Grid>
 </Window>

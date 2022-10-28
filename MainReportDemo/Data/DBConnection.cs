@@ -9,9 +9,25 @@ namespace MainReportDemo.Data
 {
     internal class DBConnection
     {
-        readonly OleDbConnection connection = new OleDbConnection(@"Provider=MSOLEDBSQL.1;Initial Catalog=TestData;Data Source=(localdb)\MSSQLLocalDB;Trusted_Connection=Yes;Persist Security Info=False");
+        public string Login { get; set; }
+        public string Pass { get; set; }
+        public string DB { get; set; }
+
+        public DBConnection(string login, string pass, string dB)
+        {
+            Login = login;
+            Pass = pass;
+            DB = dB;
+        }
+
+        OleDbConnection connection;
+
         public async Task CreateConnection()
         {
+            //connection = new OleDbConnection(@"Provider = SQLOLEDB.1; Persist Security Info = False; Trusted_Connection = Yes; User ID = " + Login + "; Password = " + Pass + "; Initial Catalog = SnegirSoft_Prod; Data Source = " + DB);
+            connection = new OleDbConnection(@"Provider=MSOLEDBSQL.1;Initial Catalog=TestData;Data Source=(localdb)\MSSQLLocalDB;Trusted_Connection=Yes;Persist Security Info=False");
+            //string test = @"Provider=MSOLEDBSQL.1;Initial Catalog=TestData;Data Source=(localdb)\MSSQLLocalDB;Trusted_Connection=Yes;Persist Security Info=False";
+            //string conn = @"Provider=SQLOLEDB.1;Persist Security Info=False;Trusted_Connection=Yes;User ID=xaf_sa;Password=1qaz!QAZ;Initial Catalog=SnegirSoft_Prod;Data Source=172.26.5.102";
             try
             {
                 await connection.OpenAsync();

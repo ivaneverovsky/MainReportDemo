@@ -73,6 +73,27 @@
         <Style TargetType="lvc:DefaultTooltip">
             <Setter Property="Background" Value="#201f21"/>
         </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10,10,10,0"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Background" Value="#201f21"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+        <Style TargetType="PasswordBox">
+            <Setter Property="Margin" Value="10,10,10,0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="Background" Value="#201f21"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
     </Window.Resources>
     <Grid Background="DimGray" ShowGridLines="False">
         <Grid.RowDefinitions>
@@ -85,7 +106,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="48*"/>
             <ColumnDefinition Width="929*"/>
-            <ColumnDefinition Width="48*"/>
+            <ColumnDefinition Width="60*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         <TextBlock x:Name="reportDateMonth" FontWeight="Bold" Foreground="White" FontFamily="Calibri" FontSize="40" HorizontalAlignment="Left"
@@ -193,7 +214,7 @@
             <TabItem Header="Запросы" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="200">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="reportListView" MaxHeight="550">
+                        <ListView x:Name="reportListView" MaxHeight="520">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Статус">
@@ -357,7 +378,7 @@
             <TabItem Header="SLA" Background="#292929" BorderThickness="0" BorderBrush="#292929" Foreground="White" FontSize="18" Height="35" Width="100">
                 <TabItem.Content>
                     <StackPanel>
-                        <ListView x:Name="slaListView" MaxHeight="550">
+                        <ListView x:Name="slaListView" MaxHeight="520">
                             <ListView.View>
                                 <GridView>
                                     <GridViewColumn Header="Статус" Width="Auto">
@@ -573,10 +594,17 @@
                 </TabItem.Content>
             </TabItem>
         </TabControl>
-        <TextBox x:Name="txtBoxFilePath" Margin="10,10,10,0" TextWrapping="Wrap" Foreground="White" FontSize="12" BorderThickness="0" Focusable="False" IsHitTestVisible="False" FontFamily="Calibri" VerticalContentAlignment="Center" FontWeight="Light" Background="#201f21" Text="Выберете файл с оценками ЦДС" Height="20" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"/>
+        <TextBox x:Name="txtBoxFilePath" VerticalContentAlignment="Center" Text="Выберете файл с оценками ЦДС" VerticalAlignment="Top" Grid.Row="4" Grid.Column="1"/>
         <Button Grid.Column="1" Content="Файл ЦДС" Click="LoadFile" ToolTip="Загрузить оценки ЦДС" Grid.Row="4" HorizontalAlignment="Left"/>
         <Button Grid.Column="1" Content="Выгрузить" ToolTip="Выгрузить данные в файл" Click="Export" HorizontalAlignment="Right" Grid.Row="4"/>
         <Button Grid.Column="1" Content="Вычислить" FontSize="14" FontWeight="Bold" ToolTip="Сделать расчет сервисной деятельности" Click="Count" HorizontalAlignment="Center" Grid.Row="4"/>
-        <Button Grid.Column="3" Content="Подключиться" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" Click="Connect"/>
+        <Button Grid.Column="3" Content="Подключиться" FontWeight="Bold" HorizontalAlignment="Center" Grid.Row="1" Click="Connect" Height="20" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtLogin" Grid.Column="3" Margin="10,10,10,0" ToolTip="Логин" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="txtPass" Grid.Column="3" Margin="10,35,10,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtDB" ToolTip="адрес БД" Grid.Column="3" Margin="10,60,10,0" VerticalAlignment="Top"/>
+        <Label Grid.Column="2" Content="login" HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="9" Margin="10,10,11,0" Height="20"/>
+        <Label Grid.Column="2" Content="password"  HorizontalContentAlignment="Center"  VerticalAlignment="Top" FontSize="9" Margin="10,35,10,0" Height="20"/>
+        <Label Grid.Column="2" Content="server"  HorizontalContentAlignment="Center" VerticalAlignment="Top" FontSize="9" Margin="10,60,11,0" Height="20"/>
+
     </Grid>
 </Window>

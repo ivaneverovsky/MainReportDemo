@@ -14,7 +14,7 @@ namespace MainReportDemo
     public partial class MainWindow : Window
     {
         OutputDataModel _odm = new OutputDataModel();
-        DBConnection _db = new DBConnection();
+        DBConnection _db = new DBConnection("xaf_sa", "1qaz!QAZ", "172.26.5.102");
         Calculations _calc = new Calculations();
         FileLoader _fl = new FileLoader();
 
@@ -98,14 +98,17 @@ namespace MainReportDemo
             SetRequests();
             reportDateMonth.Text = _odm.ReportDateMonth; //shows report date
             reportDateYear.Text = _odm.ReportDateYear;
+            
             try //try load program state
             {
                 _calc.LoadData();
                 Restore();
+                txtBoxFilePath.Text = "Данные восстановлены.";
             }
             catch
             {
                 MessageBox.Show("Последнее состояние программы не было восстановлено. Программа продолжит работу.", "Внимание");
+                txtBoxFilePath.Text = "Выполните подключение.";
             }
         }
         private void Restore() //restore saved data
@@ -163,8 +166,13 @@ namespace MainReportDemo
 
         private void Connect(object sender, RoutedEventArgs e) //connect to db get contracts
         {
+            if (txtLogin.Text != "" && txtDB.Text != "")
+            {
+                _db = new DBConnection(txtLogin.Text, txtPass.Password, txtDB.Text);
+            }
             GetContractsListFromDB(contractsRequest); //list contracts
             MakeContracts(dbData);
+            txtBoxFilePath.Text = "Данные получены. Загрузите файл ЦДС или выполните расчет.";
         } 
         private async void Count(object sender, RoutedEventArgs e) //button "Вычислить", count everything
         {
@@ -429,25 +437,26 @@ namespace MainReportDemo
         }
         private void SetRequests() //set db requests
         {
-            contractsRequest = @"SELECT DISTINCT ServiceContractTitle FROM dbo.RequestsFull"; //contract list
-            monthRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + MonthDate + "'"; //contract details
-            quarterRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + QuarterSDate + "' AND CAST([CreateDate] AS date) <= '" + QuaterFDate + "'";
-            yearRequest = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + yearDate + "'";
-            r1 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d1 + "' AND CAST([CreateDate] AS date) < '" + d2 + "'"; //graph details
-            r2 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d2 + "' AND CAST([CreateDate] AS date) < '" + d3 + "'";
-            r3 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d3 + "' AND CAST([CreateDate] AS date) < '" + d4 + "'";
-            r4 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d4 + "' AND CAST([CreateDate] AS date) < '" + d5 + "'";
-            r5 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d5 + "' AND CAST([CreateDate] AS date) < '" + d6 + "'";
-            r6 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d6 + "' AND CAST([CreateDate] AS date) < '" + d7 + "'";
-            r7 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d7 + "' AND CAST([CreateDate] AS date) < '" + d8 + "'";
-            r8 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d8 + "' AND CAST([CreateDate] AS date) < '" + d9 + "'";
-            r9 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d9 + "' AND CAST([CreateDate] AS date) < '" + d10 + "'";
-            r10 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d10 + "' AND CAST([CreateDate] AS date) < '" + d11 + "'";
-            r11 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d11 + "' AND CAST([CreateDate] AS date) < '" + d12 + "'";
-            r12 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d12 + "' AND CAST([CreateDate] AS date) < '" + d13 + "'";
-            r13 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d13 + "' AND CAST([CreateDate] AS date) < '" + d14 + "'";
-            r14 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d14 + "' AND CAST([CreateDate] AS date) < '" + d15 + "'";
-            r15 = @"SELECT * FROM dbo.RequestsFull WHERE CAST([CreateDate] AS date) >= '" + d15 + "'";
+            string table = "RequestsFull";
+            contractsRequest = @"SELECT DISTINCT ServiceContractTitle FROM " + table; //contract list
+            monthRequest = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + MonthDate + "'"; //contract details
+            quarterRequest = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + QuarterSDate + "' AND CAST([CreateDate] AS date) <= '" + QuaterFDate + "'";
+            yearRequest = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + yearDate + "'";
+            r1 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d1 + "' AND CAST([CreateDate] AS date) < '" + d2 + "'"; //graph details
+            r2 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d2 + "' AND CAST([CreateDate] AS date) < '" + d3 + "'";
+            r3 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d3 + "' AND CAST([CreateDate] AS date) < '" + d4 + "'";
+            r4 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d4 + "' AND CAST([CreateDate] AS date) < '" + d5 + "'";
+            r5 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d5 + "' AND CAST([CreateDate] AS date) < '" + d6 + "'";
+            r6 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d6 + "' AND CAST([CreateDate] AS date) < '" + d7 + "'";
+            r7 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d7 + "' AND CAST([CreateDate] AS date) < '" + d8 + "'";
+            r8 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d8 + "' AND CAST([CreateDate] AS date) < '" + d9 + "'";
+            r9 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d9 + "' AND CAST([CreateDate] AS date) < '" + d10 + "'";
+            r10 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d10 + "' AND CAST([CreateDate] AS date) < '" + d11 + "'";
+            r11 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d11 + "' AND CAST([CreateDate] AS date) < '" + d12 + "'";
+            r12 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d12 + "' AND CAST([CreateDate] AS date) < '" + d13 + "'";
+            r13 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d13 + "' AND CAST([CreateDate] AS date) < '" + d14 + "'";
+            r14 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d14 + "' AND CAST([CreateDate] AS date) < '" + d15 + "'";
+            r15 = @"SELECT * FROM " + table + " WHERE CAST([CreateDate] AS date) >= '" + d15 + "'";
         }
         
         private void Cleaning() //erase data

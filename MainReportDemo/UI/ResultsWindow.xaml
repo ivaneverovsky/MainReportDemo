@@ -1,0 +1,391 @@
+﻿<Window x:Class="MainReportDemo.UI.ResultsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MainReportDemo.UI"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Детализация" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Margin" Value="5,5,5,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="CornflowerBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#eaeaea"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="FontFamily" Value="Calibri"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+        </Style>
+    </Window.Resources>
+    <Grid Background="#959595" ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="210*"/>
+            <RowDefinition Height="210*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20*"/>
+            <ColumnDefinition Width="930*"/>
+            <ColumnDefinition Width="20*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="1" Content="Детализация сервисной деятельности" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <ListView Grid.Row="1" Name="reportListViewFull" Margin="10,44,10,35" Grid.RowSpan="2" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Статус">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <RadioButton IsHitTestVisible="False" Background="{Binding Color}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Сервисный контракт">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ContractName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Кол-во обращений (месяц)">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ReportAmount}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="КИ (месяц)">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#ffd7d7" BorderThickness="0">
+                                    <TextBlock Text="{Binding Critical}"/>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="SLA">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding SLAMonth}"/>
+                                            <TextBlock Text=" % / "/>
+                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                            <TextBlock Text=" %"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                            <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                            <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="ЗнД">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RequestsAccess}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding AccessPerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="ЗнИ">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RequestsChange}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding ChangePerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="ЗнО">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RequestsUsage}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding UsagePerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Инц.">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Incidents}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding IncidentsPerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Инц. ИБ">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding IncidentsIS}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding IncidentsISPerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Консультация">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RequestsAdvice}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding AdvicePerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="ППР">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding PlannedWork}"/>
+                                        <TextBlock Text=" ("/>
+                                        <TextBlock Text="{Binding PlannedWorkPerc}"/>
+                                        <TextBlock Text=" %)"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="5" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#009219" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding FivePerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="4" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#00d023" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding FourPerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="3" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#ccb300" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ThreePerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="2" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#ff4f4f" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding TwoPerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="-" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#9a9a9a" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding NoMarkPerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="↺" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#ffd7d7" BorderThickness="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding RestartPerc}"/>
+                                        <TextBlock Text=" %"/>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Статус (год)" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <RadioButton IsHitTestVisible="False" Background="{Binding ColorYear}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Кол-во обращений (год)" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ReportAmountYear}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="КИ (год)" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem Background="#ffd7d7" BorderThickness="0">
+                                    <TextBlock Text="{Binding CriticalYear}"/>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="SLA месяц" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding SLAMonth}"/>
+                                            <TextBlock Text=" % / "/>
+                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                            <TextBlock Text=" %"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Foreground="{Binding SLAState}" Text=" ("/>
+                                            <TextBlock Foreground="{Binding SLAState}" Text="{Binding SLAValue}"/>
+                                            <TextBlock Foreground="{Binding SLAState}" Text=" %)"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="SLA квартал" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding SLAQuarter}"/>
+                                            <TextBlock Text=" % / "/>
+                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                            <TextBlock Text=" %"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Foreground="{Binding SLAQuarterState}" Text=" ("/>
+                                            <TextBlock Foreground="{Binding SLAQuarterState}" Text="{Binding SLAQuarterValue}"/>
+                                            <TextBlock Foreground="{Binding SLAQuarterState}" Text=" %)"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="SLA год" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ListViewItem BorderThickness="0">
+                                    <StackPanel Orientation="Vertical">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding SLAYear}"/>
+                                            <TextBlock Text=" % / "/>
+                                            <TextBlock Text="{Binding TargetSLA}"/>
+                                            <TextBlock Text=" %"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Foreground="{Binding SLAYearState}" Text=" ("/>
+                                            <TextBlock Foreground="{Binding SLAYearState}" Text="{Binding SLAYearValue}"/>
+                                            <TextBlock Foreground="{Binding SLAYearState}" Text=" %)"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </ListViewItem>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Name="CloseButton" Grid.Column="1" Content="Закрыть" Click="CloseTable" Margin="0,0,10,10" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="80" ToolTip="Закрыть окно"/>
+    </Grid>
+</Window>
